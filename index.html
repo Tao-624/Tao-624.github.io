@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程涛 | 产品经理 & 数据分析师</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Poppins', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 70%;
+            height: 140%;
+            background: var(--gradient);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-secondary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .avatar-container {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: var(--gradient);
+            padding: 5px;
+            position: relative;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+        }
+
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .floating-badge.one { top: 10%; left: -10%; animation-delay: 0s; }
+        .floating-badge.two { bottom: 20%; right: -10%; animation-delay: 1s; }
+        .floating-badge.three { bottom: 5%; left: 0; animation-delay: 2s; }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-badge i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .floating-badge span {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 6rem 10%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .label {
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-list li i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .info-list li strong {
+            min-width: 80px;
+        }
+
+        /* Education Section */
+        .education {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px var(--primary);
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            margin: 0 2rem;
+            transition: transform 0.3s;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .timeline-content .date {
+            display: inline-block;
+            background: var(--gradient);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content .school {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            background: white;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .skill-category h3 i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+        }
+
+        .projects .section-header h2,
+        .projects .section-header p {
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-header {
+            padding: 2rem;
+            background: var(--gradient);
+        }
+
+        .project-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-header .role {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .project-body {
+            padding: 2rem;
+        }
+
+        .project-body p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .project-highlights {
+            list-style: none;
+        }
+
+        .project-highlights li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        .project-highlights li i {
+            color: var(--accent);
+            margin-top: 0.25rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        /* Experience Section */
+        .experience {
+            background: white;
+        }
+
+        .exp-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .exp-card {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .exp-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .exp-meta {
+            text-align: center;
+        }
+
+        .exp-meta .company {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-meta .position {
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .exp-meta .date {
+            font-size: 0.9rem;
+            color: var(--gray);
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .exp-content h4 {
+            margin-bottom: 1rem;
+        }
+
+        .exp-content ul {
+            list-style: none;
+        }
+
+        .exp-content ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray);
+        }
+
+        .exp-content ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-method i {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .contact-method div strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-method div span {
+            color: var(--gray);
+        }
+
+        .contact-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-card h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .qr-code {
+            text-align: center;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .qr-code p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .avatar-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .floating-badge {
+                display: none;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-left: 60px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+
+            .timeline-item::before {
+                left: 20px;
+            }
+
+            .timeline-content {
+                width: 100%;
+                margin: 0;
+            }
+
+            .exp-card {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 0 5%;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="logo">Tao Cheng</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于我</a></li>
+            <li><a href="#education">教育背景</a></li>
+            <li><a href="#skills">技能</a></li>
+            <li><a href="#projects">项目经历</a></li>
+            <li><a href="#experience">实习经历</a></li>
+            <li><a href="#contact">联系我</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>你好，我是<span>程涛</span></h1>
+                <p class="subtitle">产品经理 | 数据分析师 | AI 爱好者</p>
+                <p>约翰霍普金斯大学商业分析与人工智能硕士在读，专注于用数据驱动产品创新，用AI赋能业务增长。擅长将复杂问题转化为可执行的产品方案。</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> 查看项目
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> 联系我
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="avatar-container">
+                    <div class="avatar-inner">👨‍💻</div>
+                </div>
+                <div class="floating-badge one">
+                    <i class="fas fa-university"></i>
+                    <span>JHU</span>
+                </div>
+                <div class="floating-badge two">
+                    <i class="fas fa-chart-line"></i>
+                    <span>数据分析</span>
+                </div>
+                <div class="floating-badge three">
+                    <i class="fas fa-robot"></i>
+                    <span>AI产品</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2>关于我</h2>
+            <p>跨学科背景，融合财务思维与技术能力，致力于打造有价值的产品</p>
+        </div>
+        <div class="about-content">
+            <div class="about-stats">
+                <div class="stat-card">
+                    <div class="number">3+</div>
+                    <div class="label">实习经历</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Top 10%</div>
+                    <div class="label">专业排名</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">326</div>
+                    <div class="label">GRE成绩</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">7.0</div>
+                    <div class="label">雅思成绩</div>
+                </div>
+            </div>
+            <div class="about-text">
+                <h3>数据驱动决策，产品创造价值</h3>
+                <p>我是一名即将在约翰霍普金斯大学攻读商业分析与人工智能硕士的学生。本科期间主修财务管理，培养了扎实的数据分析和商业思维能力。</p>
+                <p>通过在中国银河、华宝证券、中信建投等金融机构的实习经历，我积累了丰富的数据分析、行业研究和产品设计经验。</p>
+                <ul class="info-list">
+                    <li><i class="fas fa-map-marker-alt"></i><strong>位置</strong> 南京 / 巴尔的摩</li>
+                    <li><i class="fas fa-graduation-cap"></i><strong>学历</strong> 硕士在读 (JHU)</li>
+                    <li><i class="fas fa-briefcase"></i><strong>方向</strong> 产品经理 / 数据分析</li>
+                    <li><i class="fas fa-envelope"></i><strong>邮箱</strong> chengtao020624@126.com</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="section-header">
+            <h2>教育背景</h2>
+            <p>持续学习，不断成长</p>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="date">2025.08 - 2026.08</span>
+                    <h3>商业分析与人工智能 硕士</h3>
+                    <p class="school">🎓 约翰霍普金斯大学 (US News 第6名)</p>
+                    <p>核心课程：统计分析、数据可视化、商业分析、Python数据分析、数据科学和商业智能、运营管理等</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="date">2020.09 - 2024.06</span>
+                    <h3>财务管理 本科</h3>
+                    <p class="school">🎓 南京邮电大学</p>
+                    <p><strong>GPA: 3.65/5.0 (专业排名前10%)</strong></p>
+                    <p>核心课程：审计学(93)、会计学(91)、高级会计学(90)、统计学(91)、概率统计(93)</p>
+                    <p style="margin-top: 1rem;">🏆 荣誉：校级优秀毕业生 | "互联网+"大赛校级奖 | 创意营销大赛特等奖 | 院辩论赛季军</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="section-header">
+            <h2>专业技能</h2>
+            <p>全栈产品能力 + 数据分析技术</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-pencil-ruler"></i> 产品设计</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">墨刀</span>
+                    <span class="skill-tag">PRD撰写</span>
+                    <span class="skill-tag">需求分析</span>
+                    <span class="skill-tag">竞品分析</span>
+                    <span class="skill-tag">用户研究</span>
+                    <span class="skill-tag">流程图绘制</span>
+                    <span class="skill-tag">Kano模型</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> 编程开发</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">NumPy</span>
+                    <span class="skill-tag">Matplotlib</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">MySQL</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-chart-bar"></i> 数据分析</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Tableau</span>
+                    <span class="skill-tag">Excel数据透视</span>
+                    <span class="skill-tag">SPSS</span>
+                    <span class="skill-tag">MATLAB</span>
+                    <span class="skill-tag">数据可视化</span>
+                    <span class="skill-tag">RFM模型</span>
+                    <span class="skill-tag">K-means聚类</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-robot"></i> AI技术</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">RAG系统</span>
+                    <span class="skill-tag">Milvus向量数据库</span>
+                    <span class="skill-tag">大模型应用</span>
+                    <span class="skill-tag">Prompt Engineering</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-building"></i> 商业分析</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">SWOT分析</span>
+                    <span class="skill-tag">PEST模型</span>
+                    <span class="skill-tag">财务分析</span>
+                    <span class="skill-tag">行业研究</span>
+                    <span class="skill-tag">市场调研</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3><i class="fas fa-language"></i> 语言能力</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">雅思 7.0</span>
+                    <span class="skill-tag">GRE 326</span>
+                    <span class="skill-tag">中文母语</span>
+                    <span class="skill-tag">英文流利</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-header">
+            <h2>项目经历</h2>
+            <p>从0到1的产品实践</p>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>🐾 AI宠物管家</h3>
+                    <p class="role">智能养宠健康管理平台 | 产品负责人</p>
+                </div>
+                <div class="project-body">
+                    <p>基于AI的即时健康管理工具，构建"咨询—记录—提醒—长期管理"的SaaS化服务闭环</p>
+                    <ul class="project-highlights">
+                        <li><i class="fas fa-check"></i>深度访谈50+宠物主，利用Kano模型识别核心痛点</li>
+                        <li><i class="fas fa-check"></i>设计AI健康顾问、分场景咨询与智能养护日历</li>
+                        <li><i class="fas fa-check"></i>构建RAG系统，专业回答命中率提升约30%</li>
+                        <li><i class="fas fa-check"></i>混合分层索引降低40%响应时间</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-tag">Figma</span>
+                        <span class="tech-tag">RAG</span>
+                        <span class="tech-tag">Milvus</span>
+                        <span class="tech-tag">Agile</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>🌾 物联网赋能农业</h3>
+                    <p class="role">"互联网+"大赛项目 | 团队负责人</p>
+                </div>
+                <div class="project-body">
+                    <p>农业物联网解决方案，通过数据驱动提升农业生产效率</p>
+                    <ul class="project-highlights">
+                        <li><i class="fas fa-check"></i>访谈32位农户及6家标杆企业，完成产业链调研</li>
+                        <li><i class="fas fa-check"></i>搭建MySQL数据库，整合清洗2.6万+条数据</li>
+                        <li><i class="fas fa-check"></i>设计B端管理者看板，降低30%单亩管理成本</li>
+                        <li><i class="fas fa-check"></i>运用SWOT与PEST模型进行可行性分析</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Tableau</span>
+                        <span class="tech-tag">SWOT</span>
+                        <span class="tech-tag">PEST</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience" id="experience">
+        <div class="section-header">
+            <h2>实习经历</h2>
+            <p>金融领域的多元实践</p>
+        </div>
+        <div class="exp-cards">
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <div class="company">中国银河研究所</div>
+                    <div class="position">行业研究实习生</div>
+                    <span class="date">2024.09 - 2024.12</span>
+                </div>
+                <div class="exp-content">
+                    <ul>
+                        <li>构建覆盖电商、新能源汽车、新基建等5大赛道分析框架</li>
+                        <li>撰写9篇深度报告，5篇被纳入机构客户投资决策参考</li>
+                        <li>运用Python建立多元回归模型，分析政策对产业影响</li>
+                        <li>研究数字经济、普惠金融、绿色金融等板块</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <div class="company">华宝证券</div>
+                    <div class="position">投资银行部实习生</div>
+                    <span class="date">2023.07 - 2023.11</span>
+                </div>
+                <div class="exp-content">
+                    <ul>
+                        <li>独立收集整理重工业市场财务与经营数据</li>
+                        <li>综合分析企业资产结构、负债水平及盈利能力</li>
+                        <li>研究资本运作风险与案例，撰写分析备忘录</li>
+                        <li>为存量客户提供财务数据维护与报表支持服务</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="exp-card">
+                <div class="exp-meta">
+                    <div class="company">中信建投</div>
+                    <div class="position">数据分析实习生</div>
+                    <span class="date">2023.02 - 2023.04</span>
+                </div>
+                <div class="exp-content">
+                    <ul>
+                        <li>使用SQL清洗海量金融交易数据，构建RFM用户价值模型</li>
+                        <li>K-means聚类分析将客户细分为5类，预测转化率提升12%</li>
+                        <li>主导开发Python自动化报表工具</li>
+                        <li>将部门周报生成效率提升45%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <h2>联系我</h2>
+            <p>期待与您交流合作</p>
+        </div>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3>让我们建立联系</h3>
+                <p>无论是产品合作、技术交流，还是求职机会，欢迎随时与我联系。我会在24小时内回复您的消息。</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>邮箱</strong>
+                            <span>chengtao020624@126.com</span>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fab fa-weixin"></i>
+                        <div>
+                            <strong>微信</strong>
+                            <span>13675178517</span>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>位置</strong>
+                            <span>南京 / 巴尔的摩 (JHU)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-card">
+                <h3>🤝 期待合作</h3>
+                <div class="social-links">
+                    <a href="mailto:chengtao020624@126.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-weixin"></i>
+                    </a>
+                </div>
+                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: 15px;">
+                    <i class="fas fa-paper-plane" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                    <p style="color: var(--gray);">点击上方图标直接联系我<br>或发送邮件至 chengtao020624@126.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 程涛 | Built with ❤️ | Product Manager & Data Analyst</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-card, .skill-category, .project-card, .exp-card, .timeline-content').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+
+        // Add typing effect to hero subtitle
+        const subtitle = document.querySelector('.hero-text .subtitle');
+        const text = subtitle.textContent;
+        subtitle.textContent = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                subtitle.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        setTimeout(typeWriter, 500);
+    </script>
+</body>
+</html>
