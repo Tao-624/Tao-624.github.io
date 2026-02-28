@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #0ea5e9;
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #38bdf8;
+            --secondary: #06b6d4;
             --accent: #f59e0b;
-            --dark: #1e293b;
-            --light: #f8fafc;
+            --dark: #0f172a;
+            --light: #f0f9ff;
             --gray: #64748b;
-            --gradient: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+            --gradient: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #0891b2 100%);
+            --gradient-light: linear-gradient(135deg, #e0f2fe 0%, #cffafe 100%);
         }
 
         * {
@@ -53,7 +55,7 @@
         nav.scrolled {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(14, 165, 233, 0.15);
         }
 
         .logo {
@@ -90,6 +92,10 @@
             transition: width 0.3s;
         }
 
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
         .nav-links a:hover::after {
             width: 100%;
         }
@@ -100,7 +106,7 @@
             display: flex;
             align-items: center;
             padding: 0 10%;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #cffafe 100%);
             position: relative;
             overflow: hidden;
         }
@@ -114,8 +120,21 @@
             height: 140%;
             background: var(--gradient);
             border-radius: 50%;
-            opacity: 0.1;
+            opacity: 0.08;
             animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
+            border-radius: 50%;
+            opacity: 0.05;
+            animation: float 8s ease-in-out infinite reverse;
         }
 
         @keyframes float {
@@ -129,6 +148,8 @@
             gap: 4rem;
             align-items: center;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-text h1 {
@@ -176,12 +197,12 @@
         .btn-primary {
             background: var(--gradient);
             color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5);
         }
 
         .btn-secondary {
@@ -212,8 +233,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            50% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); }
         }
 
         .avatar-inner {
@@ -224,7 +245,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8rem;
+            overflow: hidden;
+        }
+
+        .avatar-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         .floating-badge {
@@ -232,7 +260,7 @@
             background: white;
             padding: 1rem 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -313,16 +341,17 @@
         }
 
         .stat-card {
-            background: var(--light);
+            background: var(--gradient-light);
             padding: 2rem;
             border-radius: 20px;
             text-align: center;
             transition: all 0.3s;
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.15);
         }
 
         .stat-card .number {
@@ -342,6 +371,7 @@
         .about-text h3 {
             font-size: 1.75rem;
             margin-bottom: 1.5rem;
+            color: var(--dark);
         }
 
         .about-text p {
@@ -359,7 +389,7 @@
             align-items: center;
             gap: 1rem;
             padding: 0.75rem 0;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e0f2fe;
         }
 
         .info-list li i {
@@ -371,9 +401,100 @@
             min-width: 80px;
         }
 
+        /* Personal Traits Section */
+        .traits {
+            background: var(--gradient-light);
+        }
+
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .trait-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.1);
+        }
+
+        .trait-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.2);
+        }
+
+        .trait-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .trait-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+
+        .trait-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Hobbies Section */
+        .hobbies {
+            background: white;
+        }
+
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .hobby-card {
+            background: var(--gradient-light);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .hobby-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.15);
+        }
+
+        .hobby-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hobby-card h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hobby-card p {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
         /* Education Section */
         .education {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: var(--gradient-light);
         }
 
         .timeline {
@@ -424,7 +545,7 @@
             background: white;
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1);
             width: 90%;
             margin: 0 2rem;
             transition: transform 0.3s;
@@ -472,15 +593,16 @@
         }
 
         .skill-category {
-            background: var(--light);
+            background: var(--gradient-light);
             padding: 2rem;
             border-radius: 20px;
             transition: all 0.3s;
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .skill-category:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.15);
         }
 
         .skill-category h3 {
@@ -507,7 +629,7 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.9rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e0f2fe;
             transition: all 0.3s;
         }
 
@@ -519,7 +641,7 @@
 
         /* Projects Section */
         .projects {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
         }
 
@@ -613,7 +735,7 @@
             gap: 0.5rem;
             margin-top: 1.5rem;
             padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #FF6B9D 0%, #C06BFF 100%);
+            background: linear-gradient(135deg, #38bdf8 0%, #06b6d4 100%);
             color: white;
             text-decoration: none;
             border-radius: 25px;
@@ -623,12 +745,12 @@
 
         .btn-demo:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.4);
         }
 
         /* Experience Section */
         .experience {
-            background: white;
+            background: var(--gradient-light);
         }
 
         .exp-cards {
@@ -643,16 +765,17 @@
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 2rem;
-            background: var(--light);
+            background: white;
             padding: 2rem;
             border-radius: 20px;
             transition: all 0.3s;
             border-left: 4px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.1);
         }
 
         .exp-card:hover {
             transform: translateX(10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.15);
         }
 
         .exp-meta {
@@ -674,7 +797,7 @@
         .exp-meta .date {
             font-size: 0.9rem;
             color: var(--gray);
-            background: white;
+            background: var(--gradient-light);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             display: inline-block;
@@ -704,7 +827,7 @@
 
         /* Contact Section */
         .contact {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background: white;
         }
 
         .contact-content {
@@ -759,10 +882,10 @@
         }
 
         .contact-card {
-            background: white;
+            background: var(--gradient-light);
             padding: 3rem;
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.1);
         }
 
         .contact-card h3 {
@@ -780,7 +903,7 @@
         .social-link {
             width: 50px;
             height: 50px;
-            background: var(--light);
+            background: white;
             color: var(--dark);
             border-radius: 50%;
             display: flex;
@@ -797,25 +920,9 @@
             transform: translateY(-5px);
         }
 
-        .qr-code {
-            text-align: center;
-        }
-
-        .qr-code img {
-            width: 150px;
-            height: 150px;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        .qr-code p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
         /* Footer */
         footer {
-            background: var(--dark);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
             text-align: center;
             padding: 2rem;
@@ -928,10 +1035,10 @@
         <ul class="nav-links">
             <li><a href="#home">首页</a></li>
             <li><a href="#about">关于我</a></li>
-            <li><a href="#education">教育背景</a></li>
+            <li><a href="#traits">个人特质</a></li>
+            <li><a href="#hobbies">兴趣爱好</a></li>
             <li><a href="#skills">技能</a></li>
-            <li><a href="#projects">项目经历</a></li>
-            <li><a href="#experience">实习经历</a></li>
+            <li><a href="#projects">项目</a></li>
             <li><a href="#contact">联系我</a></li>
         </ul>
     </nav>
@@ -954,7 +1061,9 @@
             </div>
             <div class="hero-visual">
                 <div class="avatar-container">
-                    <div class="avatar-inner">👨‍💻</div>
+                    <div class="avatar-inner">
+                        <img src="avatar.jpg" alt="程涛">
+                    </div>
                 </div>
                 <div class="floating-badge one">
                     <i class="fas fa-university"></i>
@@ -1007,6 +1116,98 @@
                     <li><i class="fas fa-briefcase"></i><strong>方向</strong> 产品经理 / 数据分析</li>
                     <li><i class="fas fa-envelope"></i><strong>邮箱</strong> chengtao020624@126.com</li>
                 </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Traits Section -->
+    <section class="traits" id="traits">
+        <div class="section-header">
+            <h2>个人特质</h2>
+            <p>积极向上，追求卓越</p>
+        </div>
+        <div class="traits-grid">
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-mountain"></i>
+                </div>
+                <h3>抗压能力强</h3>
+                <p>能够在高压环境下保持冷静，高效完成任务，曾同时处理多个项目并按时交付</p>
+            </div>
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-smile-beam"></i>
+                </div>
+                <h3>性格活泼开朗</h3>
+                <p>善于与人沟通交流，能快速融入团队，营造积极的工作氛围</p>
+            </div>
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>富有创意</h3>
+                <p>善于跳出常规思维，提出创新解决方案，在比赛中多次获得创意类奖项</p>
+            </div>
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>团队协作</h3>
+                <p>具备出色的团队合作精神，擅长协调资源，推动项目顺利进行</p>
+            </div>
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <h3>持续学习</h3>
+                <p>保持对新知识的好奇心，主动学习前沿技术，不断提升专业能力</p>
+            </div>
+            <div class="trait-card">
+                <div class="trait-icon">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h3>目标导向</h3>
+                <p>做事有条理，注重结果，能够制定清晰目标并坚定执行</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hobbies Section -->
+    <section class="hobbies" id="hobbies">
+        <div class="section-header">
+            <h2>兴趣爱好</h2>
+            <p>热爱生活，全面发展</p>
+        </div>
+        <div class="hobbies-grid">
+            <div class="hobby-card">
+                <div class="hobby-icon">🎻</div>
+                <h3>小提琴</h3>
+                <p>学习多年，享受音乐带来的宁静</p>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">🏊</div>
+                <h3>游泳</h3>
+                <p>强身健体，释放压力的最佳方式</p>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">🎾</div>
+                <h3>网球</h3>
+                <p>享受挥拍的快感，锻炼反应能力</p>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">✈️</div>
+                <h3>旅行</h3>
+                <p>探索世界，体验不同文化</p>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">📚</div>
+                <h3>阅读</h3>
+                <p>拓宽视野，汲取知识的养分</p>
+            </div>
+            <div class="hobby-card">
+                <div class="hobby-icon">🎬</div>
+                <h3>电影</h3>
+                <p>欣赏光影艺术，感受故事魅力</p>
             </div>
         </div>
     </section>
@@ -1266,14 +1467,14 @@
                     <a href="#" class="social-link">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="#" class="social-link">
+                    <a href="https://github.com/tao-624" class="social-link" target="_blank">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="#" class="social-link">
                         <i class="fab fa-weixin"></i>
                     </a>
                 </div>
-                <div style="text-align: center; padding: 2rem; background: var(--light); border-radius: 15px;">
+                <div style="text-align: center; padding: 2rem; background: white; border-radius: 15px;">
                     <i class="fas fa-paper-plane" style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
                     <p style="color: var(--gray);">点击上方图标直接联系我<br>或发送邮件至 chengtao020624@126.com</p>
                 </div>
@@ -1322,7 +1523,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.stat-card, .skill-category, .project-card, .exp-card, .timeline-content').forEach(el => {
+        document.querySelectorAll('.stat-card, .skill-category, .project-card, .exp-card, .timeline-content, .trait-card, .hobby-card').forEach(el => {
             el.classList.add('fade-in');
             observer.observe(el);
         });
