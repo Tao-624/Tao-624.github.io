@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI宠物管家 - 智能养宠助手</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #f5f5f5;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #FF6B9D 0%, #C06BFF 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.8em;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    .search-bar {
+      padding: 15px;
+      background: white;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 25px;
+      font-size: 0.95em;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #FF6B9D;
+    }
+
+    .pet-card {
+      margin: 15px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .pet-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .pet-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      margin-right: 15px;
+    }
+
+    .pet-info h3 {
+      font-size: 1.3em;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .pet-info p {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 15px;
+      font-size: 0.85em;
+      margin-top: 5px;
+    }
+
+    .pet-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-icon {
+      font-size: 1.5em;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.75em;
+      color: #999;
+      margin-bottom: 3px;
+    }
+
+    .stat-value {
+      font-size: 0.9em;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .alert-box {
+      background: #FFF3E0;
+      border-left: 4px solid #FF9800;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-size: 0.9em;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      padding: 20px 15px;
+      background: white;
+      margin: 15px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .action-btn {
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+
+    .action-icon {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 8px;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      color: white;
+    }
+
+    .action-label {
+      font-size: 0.8em;
+      color: #666;
+    }
+
+    .section {
+      margin: 15px;
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-more {
+      font-size: 0.85em;
+      color: #FF6B9D;
+      cursor: pointer;
+    }
+
+    .reminder-item {
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .reminder-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2em;
+      margin-right: 12px;
+    }
+
+    .reminder-content {
+      flex: 1;
+    }
+
+    .reminder-title {
+      font-size: 0.95em;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    .reminder-time {
+      font-size: 0.8em;
+      color: #999;
+    }
+
+    .article-item {
+      display: flex;
+      padding: 12px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .article-item:hover {
+      background: #f0f0f0;
+    }
+
+    .article-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+    }
+
+    .article-content {
+      flex: 1;
+    }
+
+    .article-title {
+      font-size: 0.95em;
+      color: #333;
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+
+    .article-meta {
+      font-size: 0.75em;
+      color: #999;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 420px;
+      width: 100%;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-item {
+      text-align: center;
+      cursor: pointer;
+      padding: 5px;
+      transition: transform 0.2s;
+    }
+
+    .nav-item:active {
+      transform: scale(0.95);
+    }
+
+    .nav-icon {
+      font-size: 1.5em;
+      margin-bottom: 3px;
+    }
+
+    .nav-label {
+      font-size: 0.7em;
+      color: #666;
+    }
+
+    .nav-item.active .nav-icon {
+      color: #FF6B9D;
+    }
+
+    .nav-item.active .nav-label {
+      color: #FF6B9D;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      animation: fadeIn 0.3s;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 15px;
+      padding: 25px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideUp 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.3em;
+      color: #333;
+    }
+
+    .modal-close {
+      font-size: 1.5em;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .chat-container {
+      height: 400px;
+      overflow-y: auto;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .chat-message {
+      margin-bottom: 15px;
+      display: flex;
+    }
+
+    .chat-message.user {
+      justify-content: flex-end;
+    }
+
+    .message-bubble {
+      max-width: 70%;
+      padding: 12px 15px;
+      border-radius: 15px;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+
+    .chat-message.ai .message-bubble {
+      background: white;
+      color: #333;
+      border-bottom-left-radius: 5px;
+    }
+
+    .chat-message.user .message-bubble {
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 25px;
+      font-size: 0.9em;
+    }
+
+    .chat-send {
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 0.9em;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #FF6B9D, #C06BFF);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .feature-card {
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .feature-icon {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .feature-title {
+      font-size: 0.9em;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .feature-desc {
+      font-size: 0.75em;
+      color: #999;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .upload-area {
+      border: 2px dashed #e0e0e0;
+      border-radius: 10px;
+      padding: 40px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .upload-area:hover {
+      border-color: #FF6B9D;
+    }
+
+    .upload-icon {
+      font-size: 3em;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    .recognition-result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f8ff;
+      border-radius: 10px;
+      border-left: 4px solid #2196F3;
+    }
+
+    .result-title {
+      font-size: 1em;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .result-content {
+      font-size: 0.9em;
+      color: #666;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- 首页 -->
+    <div class="page active" id="homePage">
+      <div class="header">
+        <h1>🐾 AI宠物管家</h1>
+        <p>24小时守护毛孩子健康快乐</p>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="🔍 试试问：狗狗拉肚子怎么办" onclick="openAIChat()">
+      </div>
+
+      <!-- 宠物卡片 -->
+      <div class="pet-card">
+        <div class="pet-header">
+          <div class="pet-avatar">🐕</div>
+          <div class="pet-info">
+            <h3 id="petName">球球</h3>
+            <p id="petDetails">金毛 · 3岁 · 公</p>
+            <span class="status-badge">😊 健康</span>
+          </div>
+        </div>
+
+        <div class="alert-box">
+          ⏰ 3天后该打疫苗啦！点击查看详情
+        </div>
+
+        <div class="pet-stats">
+          <div class="stat-item">
+            <div class="stat-icon">🍽️</div>
+            <div class="stat-label">今日喂食</div>
+            <div class="stat-value">2/3次</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⚖️</div>
+            <div class="stat-label">体重</div>
+            <div class="stat-value">32kg</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">💊</div>
+            <div class="stat-label">驱虫倒计时</div>
+            <div class="stat-value">15天</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 快捷功能 -->
+      <div class="quick-actions">
+        <div class="action-btn" onclick="openAIChat()">
+          <div class="action-icon">🤖</div>
+          <div class="action-label">AI问诊</div>
+        </div>
+        <div class="action-btn" onclick="openRecognition()">
+          <div class="action-icon">📸</div>
+          <div class="action-label">拍照识别</div>
+        </div>
+        <div class="action-btn" onclick="showPage('calendarPage')">
+          <div class="action-icon">📅</div>
+          <div class="action-label">养护日历</div>
+        </div>
+        <div class="action-btn" onclick="alert('功能开发中...')">
+          <div class="action-icon">🏥</div>
+          <div class="action-label">找医院</div>
+        </div>
+        <div class="action-btn" onclick="alert('功能开发中...')">
+          <div class="action-icon">🏨</div>
+          <div class="action-label">寄养服务</div>
+        </div>
+        <div class="action-btn" onclick="alert('功能开发中...')">
+          <div class="action-icon">🚶</div>
+          <div class="action-label">遛狗预约</div>
+        </div>
+        <div class="action-btn" onclick="alert('功能开发中...')">
+          <div class="action-icon">🛁</div>
+          <div class="action-label">洗澡美容</div>
+        </div>
+        <div class="action-btn" onclick="alert('功能开发中...')">
+          <div class="action-icon">🛒</div>
+          <div class="action-label">宠物商城</div>
+        </div>
+      </div>
+
+      <!-- 今日提醒 -->
+      <div class="section">
+        <div class="section-title">
+          <span>📌 今日提醒</span>
+          <span class="section-more">查看全部 →</span>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">💉</div>
+          <div class="reminder-content">
+            <div class="reminder-title">疫苗接种提醒</div>
+            <div class="reminder-time">3天后 · 狂犬疫苗加强针</div>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">🍽️</div>
+          <div class="reminder-content">
+            <div class="reminder-title">晚餐时间到了</div>
+            <div class="reminder-time">18:00 · 建议喂食350g狗粮</div>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">🚶</div>
+          <div class="reminder-content">
+            <div class="reminder-title">该出门遛弯啦</div>
+            <div class="reminder-time">今天还未遛狗 · 建议运动40分钟</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 养宠知识 -->
+      <div class="section">
+        <div class="section-title">
+          <span>📚 养宠知识</span>
+          <span class="section-more">更多 →</span>
+        </div>
+        <div class="article-item">
+          <div class="article-image">📖</div>
+          <div class="article-content">
+            <div class="article-title">幼犬疫苗完全指南：时间表和注意事项</div>
+            <div class="article-meta">阅读 12.5万 · 收藏 3.2万</div>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-image">🏥</div>
+          <div class="article-content">
+            <div class="article-title">狗狗呕吐的8种常见原因及应对方法</div>
+            <div class="article-meta">阅读 9.8万 · 收藏 2.1万</div>
+          </div>
+        </div>
+        <div class="article-item">
+          <div class="article-image">🍖</div>
+          <div class="article-content">
+            <div class="article-title">科学喂养：不同年龄段的营养需求</div>
+            <div class="article-meta">阅读 15.3万 · 收藏 4.5万</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 健康页 -->
+    <div class="page" id="healthPage">
+      <div class="header">
+        <h1>🏥 健康管理</h1>
+        <p>全方位守护宠物健康</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">健康档案</div>
+        <div class="pet-stats" style="grid-template-columns: repeat(2, 1fr);">
+          <div class="stat-item">
+            <div class="stat-icon">💉</div>
+            <div class="stat-label">疫苗接种</div>
+            <div class="stat-value">已接种6次</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">💊</div>
+            <div class="stat-label">驱虫记录</div>
+            <div class="stat-value">已驱虫4次</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">🏥</div>
+            <div class="stat-label">就诊记录</div>
+            <div class="stat-value">2次</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">体检报告</div>
+            <div class="stat-value">1份</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">体重趋势</div>
+        <div style="text-align: center; padding: 30px;">
+          <div style="font-size: 2em;">📈</div>
+          <p style="color: #666; margin-top: 10px;">体重稳定在正常范围</p>
+          <p style="color: #999; font-size: 0.85em; margin-top: 5px;">最近30天: 31.5kg → 32kg</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">健康提醒</div>
+        <div class="reminder-item">
+          <div class="reminder-icon">💉</div>
+          <div class="reminder-content">
+            <div class="reminder-title">狂犬疫苗加强针</div>
+            <div class="reminder-time">2024-12-25 · 还有3天</div>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">💊</div>
+          <div class="reminder-content">
+            <div class="reminder-title">体内驱虫</div>
+            <div class="reminder-time">2025-01-10 · 还有18天</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 日历页 -->
+    <div class="page" id="calendarPage">
+      <div class="header">
+        <h1>📅 养护日历</h1>
+        <p>科学规划每一天</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title">本月重要事项</div>
+        <div class="reminder-item">
+          <div class="reminder-icon">💉</div>
+          <div class="reminder-content">
+            <div class="reminder-title">12月25日 - 疫苗接种</div>
+            <div class="reminder-time">狂犬疫苗加强针 · 需提前预约</div>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">🛁</div>
+          <div class="reminder-content">
+            <div class="reminder-title">12月28日 - 洗澡美容</div>
+            <div class="reminder-time">距上次洗澡已15天</div>
+          </div>
+        </div>
+        <div class="reminder-item">
+          <div class="reminder-icon">💊</div>
+          <div class="reminder-content">
+            <div class="reminder-title">01月10日 - 体内驱虫</div>
+            <div class="reminder-time">拜宠清 · 按体重用药</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">每日养护计划</div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🍽️</div>
+            <div class="feature-title">喂食</div>
+            <div class="feature-desc">早8:00 / 晚18:00</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚶</div>
+            <div class="feature-title">遛狗</div>
+            <div class="feature-desc">早晚各1次 / 40分钟</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💧</div>
+            <div class="feature-title">换水</div>
+            <div class="feature-desc">每日2次</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎾</div>
+            <div class="feature-title">互动</div>
+            <div class="feature-desc">每日至少30分钟</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 我的页面 -->
+    <div class="page" id="myPage">
+      <div class="header">
+        <h1>👤 我的</h1>
+        <p>个人中心</p>
+      </div>
+
+      <div class="pet-card">
+        <div class="pet-header">
+          <div class="pet-avatar">🐕</div>
+          <div class="pet-info">
+            <h3>宠物主人</h3>
+            <p>会员等级：普通用户</p>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="openAddPet()">+ 添加宠物</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title">我的服务</div>
+        <div class="feature-grid">
+          <div class="feature-card" onclick="alert('功能开发中...')">
+            <div class="feature-icon">💬</div>
+            <div class="feature-title">咨询记录</div>
+          </div>
+          <div class="feature-card" onclick="alert('功能开发中...')">
+            <div class="feature-icon">📦</div>
+            <div class="feature-title">我的订单</div>
+          </div>
+          <div class="feature-card" onclick="alert('功能开发中...')">
+            <div class="feature-icon">💳</div>
+            <div class="feature-title">会员中心</div>
+          </div>
+          <div class="feature-card" onclick="alert('功能开发中...')">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-title">设置</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">升级会员</div>
+        <div style="background: linear-gradient(135deg, #FF6B9D, #C06BFF); padding: 20px; border-radius: 10px; color: white;">
+          <h3 style="margin-bottom: 10px;">🎉 专业版会员</h3>
+          <p style="font-size: 0.9em; opacity: 0.9; margin-bottom: 15px;">
+            无限AI问答 + 图文问诊 + 专属客服
+          </p>
+          <div style="font-size: 1.5em; margin-bottom: 10px;">
+            <span style="font-size: 0.7em;">仅需</span> ¥39.9
+            <span style="font-size: 0.6em;">/月</span>
+          </div>
+          <button style="background: white; color: #FF6B9D; border: none; padding: 10px 30px; border-radius: 20px; font-weight: bold; cursor: pointer;">
+            立即升级
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="showPage('homePage')">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-label">首页</div>
+      </div>
+      <div class="nav-item" onclick="showPage('healthPage')">
+        <div class="nav-icon">🏥</div>
+        <div class="nav-label">健康</div>
+      </div>
+      <div class="nav-item" onclick="showPage('calendarPage')">
+        <div class="nav-icon">📅</div>
+        <div class="nav-label">日历</div>
+      </div>
+      <div class="nav-item" onclick="showPage('myPage')">
+        <div class="nav-icon">👤</div>
+        <div class="nav-label">我的</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI问诊模态框 -->
+  <div class="modal" id="aiChatModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">🤖 AI健康顾问</div>
+        <div class="modal-close" onclick="closeModal('aiChatModal')">×</div>
+      </div>
+      <div class="chat-container" id="chatContainer">
+        <div class="chat-message ai">
+          <div class="message-bubble">
+            你好！我是AI宠物健康顾问，有什么可以帮助你的吗？😊<br><br>
+            你可以问我：<br>
+            • 宠物症状判断<br>
+            • 日常养护建议<br>
+            • 饮食营养咨询<br>
+            • 训练行为问题
+          </div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="描述你的问题...">
+        <button class="chat-send" onclick="sendMessage()">发送</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 拍照识别模态框 -->
+  <div class="modal" id="recognitionModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">📸 智能识别</div>
+        <div class="modal-close" onclick="closeModal('recognitionModal')">×</div>
+      </div>
+      <div class="feature-grid" style="margin-bottom: 20px;">
+        <div class="feature-card" onclick="recognizeBreed()">
+          <div class="feature-icon">🐕</div>
+          <div class="feature-title">品种识别</div>
+        </div>
+        <div class="feature-card" onclick="recognizeSymptom()">
+          <div class="feature-icon">🏥</div>
+          <div class="feature-title">症状识别</div>
+        </div>
+        <div class="feature-card" onclick="recognizeFood()">
+          <div class="feature-icon">🍖</div>
+          <div class="feature-title">食物安全</div>
+        </div>
+        <div class="feature-card" onclick="recognizeEmotion()">
+          <div class="feature-icon">😊</div>
+          <div class="feature-title">情绪识别</div>
+        </div>
+      </div>
+      <div class="upload-area" onclick="simulateUpload()">
+        <div class="upload-icon">📷</div>
+        <div>点击上传照片</div>
+        <div style="font-size: 0.8em; color: #999; margin-top: 5px;">支持 JPG、PNG 格式</div>
+      </div>
+      <div id="recognitionResult"></div>
+    </div>
+  </div>
+
+  <!-- 添加宠物模态框 -->
+  <div class="modal" id="addPetModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">➕ 添加宠物</div>
+        <div class="modal-close" onclick="closeModal('addPetModal')">×</div>
+      </div>
+      <form onsubmit="return addPet(event)">
+        <div class="form-group">
+          <label class="form-label">宠物类型</label>
+          <select class="form-select" id="petType" required>
+            <option value="">请选择</option>
+            <option value="狗">🐕 狗狗</option>
+            <option value="猫">🐱 猫咪</option>
+            <option value="其他">🐹 其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">宠物名字</label>
+          <input type="text" class="form-input" id="petNameInput" placeholder="例如：球球" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">品种</label>
+          <input type="text" class="form-input" id="petBreed" placeholder="例如：金毛">
+        </div>
+        <div class="form-group">
+          <label class="form-label">性别</label>
+          <select class="form-select" id="petGender" required>
+            <option value="">请选择</option>
+            <option value="公">公</option>
+            <option value="母">母</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">年龄</label>
+          <input type="number" class="form-input" id="petAge" placeholder="岁" min="0" max="30">
+        </div>
+        <div class="form-group">
+          <label class="form-label">体重（kg）</label>
+          <input type="number" class="form-input" id="petWeight" placeholder="公斤" step="0.1">
+        </div>
+        <button type="submit" class="btn-primary">保存</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 页面切换
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach((item, index) => {
+        item.classList.remove('active');
+      });
+      const pageMap = {
+        'homePage': 0,
+        'healthPage': 1,
+        'calendarPage': 2,
+        'myPage': 3
+      };
+      document.querySelectorAll('.nav-item')[pageMap[pageId]].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openAIChat() {
+      document.getElementById('aiChatModal').classList.add('active');
+    }
+
+    function openRecognition() {
+      document.getElementById('recognitionModal').classList.add('active');
+    }
+
+    function openAddPet() {
+      document.getElementById('addPetModal').classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const message = input.value.trim();
+      if (!message) return;
+      const container = document.getElementById('chatContainer');
+      container.innerHTML += `
+        <div class="chat-message user">
+          <div class="message-bubble">${message}</div>
+        </div>
+      `;
+      input.value = '';
+      setTimeout(() => {
+        const response = generateAIResponse(message);
+        container.innerHTML += `
+          <div class="chat-message ai">
+            <div class="message-bubble">${response}</div>
+          </div>
+        `;
+        container.scrollTop = container.scrollHeight;
+      }, 1000);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function generateAIResponse(message) {
+      const responses = {
+        '拉肚子': '狗狗腹泻可能的原因：<br>1. 吃了不干净的食物<br>2. 换粮过快<br>3. 肠胃炎<br>4. 寄生虫感染<br><br>建议：<br>• 禁食12-24小时<br>• 提供充足饮水<br>• 观察精神状态<br>• 如果伴随呕吐、便血请立即就医',
+        '呕吐': '呕吐可能原因：<br>1. 吃得太快太多<br>2. 误食异物<br>3. 肠胃不适<br>4. 疾病信号<br><br>应对措施：<br>• 停止进食4-6小时<br>• 少量多次喂水<br>• 观察呕吐物<br>• 持续呕吐需就医',
+        '不吃饭': '食欲不振的常见原因：<br>1. 天气太热<br>2. 食物不合口味<br>3. 身体不适<br>4. 运动量不够<br><br>解决方法：<br>• 检查食物新鲜度<br>• 增加运动量<br>• 尝试更换食物<br>• 超过2天不吃需就医'
+      };
+      for (let key in responses) {
+        if (message.includes(key)) {
+          return responses[key];
+        }
+      }
+      return '感谢你的咨询！根据你的描述，建议：<br><br>1. 密切观察宠物状态<br>2. 记录具体症状和时间<br>3. 如果症状加重或持续，请及时就医<br>4. 可以拍照上传症状图片，我能提供更准确的判断<br><br>需要预约在线兽医吗？';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) {
+        chatInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            sendMessage();
+          }
+        });
+      }
+    });
+
+    function recognizeBreed() {
+      simulateRecognition('品种识别', '识别结果：金毛寻回犬<br><br>特征：<br>• 大型犬<br>• 性格温顺友好<br>• 智商排名第4<br>• 平均寿命：10-12年<br>• 成年体重：25-34kg');
+    }
+
+    function recognizeSymptom() {
+      simulateRecognition('症状识别', '识别到可能的症状：皮肤发红<br><br>分析：<br>• 可能是过敏反应<br>• 建议检查近期饮食<br>• 避免抓挠<br>• 严重时请就医<br><br>是否需要图文问诊？');
+    }
+
+    function recognizeFood() {
+      simulateRecognition('食物安全', '扫描结果：葡萄<br><br>⚠️ 警告：<br>葡萄对狗狗有毒！<br>可能导致急性肾衰竭<br><br>禁食食物还包括：<br>• 巧克力<br>• 洋葱<br>• 澳洲坚果<br>• 木糖醇');
+    }
+
+    function recognizeEmotion() {
+      simulateRecognition('情绪识别', '情绪分析：开心 😊<br><br>表情特征：<br>• 嘴巴张开<br>• 舌头外露<br>• 眼神明亮<br>• 尾巴摇动<br><br>建议：继续保持这种互动方式！');
+    }
+
+    function simulateUpload() {
+      alert('演示版本：请选择上方的识别类型查看效果');
+    }
+
+    function simulateRecognition(title, content) {
+      const resultDiv = document.getElementById('recognitionResult');
+      resultDiv.innerHTML = `
+        <div class="recognition-result">
+          <div class="result-title">${title}</div>
+          <div class="result-content">${content}</div>
+        </div>
+      `;
+    }
+
+    function addPet(event) {
+      event.preventDefault();
+      const petType = document.getElementById('petType').value;
+      const petName = document.getElementById('petNameInput').value;
+      const petBreed = document.getElementById('petBreed').value;
+      const petGender = document.getElementById('petGender').value;
+      const petAge = document.getElementById('petAge').value;
+      const petWeight = document.getElementById('petWeight').value;
+
+      const emoji = petType === '狗' ? '🐕' : petType === '猫' ? '🐱' : '🐹';
+      document.querySelector('.pet-avatar').textContent = emoji;
+      document.getElementById('petName').textContent = petName;
+      document.getElementById('petDetails').textContent = `${petBreed || petType} · ${petAge}岁 · ${petGender}`;
+      if (petWeight) {
+        document.querySelector('.stat-value').textContent = petWeight + 'kg';
+      }
+      alert('宠物信息已保存！');
+      closeModal('addPetModal');
+      showPage('homePage');
+      return false;
+    }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
