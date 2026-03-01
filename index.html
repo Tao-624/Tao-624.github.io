@@ -4,22 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>程涛 | 产品经理 & 数据分析师</title>
+    <meta name="description" content="约翰霍普金斯大学商业分析硕士，专注AI产品与数据驱动增长">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #ff6b9d;
-            --primary-dark: #e91e63;
-            --primary-light: #ffc1d4;
-            --secondary: #ff9a9e;
-            --accent: #ffecd2;
-            --dark: #4a4a4a;
-            --light: #fff5f7;
-            --gray: #888;
-            --gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ff9a9e 100%);
-            --gradient-pink: linear-gradient(135deg, #ffc1d4 0%, #ff6b9d 50%, #ff9a9e 100%);
-            --gradient-light: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 100%);
-            --gradient-hero: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 30%, #ffd6e0 60%, #ffc8d6 100%);
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gradient: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --dark: #f8fafc;
+            --light: #0f172a;
+            --gray: #94a3b8;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
         }
 
         * {
@@ -35,82 +47,54 @@
         body {
             font-family: 'Noto Sans SC', 'Poppins', sans-serif;
             background: var(--light);
-            color: var(--dark);
+            color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
         }
 
-        /* 樱花飘落动画 */
-        .sakura-container {
+        /* Loading Screen */
+        .loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 9999;
-            overflow: hidden;
+            transition: opacity 0.5s, visibility 0.5s;
         }
 
-        .sakura {
-            position: absolute;
-            top: -50px;
-            animation: fall linear infinite;
-            opacity: 0.9;
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
         }
 
-        .sakura::before {
-            content: '🌸';
-            font-size: var(--size, 20px);
-            display: block;
-            animation: sway ease-in-out infinite;
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes fall {
-            0% {
-                transform: translateY(-50px) rotate(0deg);
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        @keyframes sway {
-            0%, 100% {
-                transform: translateX(0) rotate(0deg);
-            }
-            25% {
-                transform: translateX(15px) rotate(10deg);
-            }
-            75% {
-                transform: translateX(-15px) rotate(-10deg);
-            }
-        }
-
-        .petal {
-            position: absolute;
-            top: -20px;
-            width: 12px;
-            height: 12px;
-            background: linear-gradient(135deg, #ffb7c5 0%, #ff69b4 100%);
-            border-radius: 50% 0 50% 50%;
-            animation: petalFall linear infinite;
-            opacity: 0.8;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
-        }
-
-        @keyframes petalFall {
-            0% {
-                transform: translateY(-20px) rotate(0deg) scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(720deg) scale(0.5);
-                opacity: 0.3;
-            }
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient);
+            z-index: 10001;
+            transition: width 0.1s;
         }
 
         /* Navigation */
@@ -128,61 +112,86 @@
         }
 
         nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 2px 30px rgba(255, 107, 157, 0.2);
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: var(--gradient-pink);
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo::before {
-            content: '🌸';
-            -webkit-text-fill-color: initial;
         }
 
         .nav-links {
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--dark);
+            color: var(--text-primary);
             font-weight: 500;
             position: relative;
-            transition: all 0.3s;
-            padding: 0.5rem 0;
+            transition: color 0.3s;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 0;
             width: 0;
-            height: 3px;
-            background: var(--gradient-pink);
+            height: 2px;
+            background: var(--gradient);
             transition: width 0.3s;
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
         }
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+            transform: rotate(180deg);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.3s;
+            border-radius: 2px;
         }
 
         /* Hero Section */
@@ -191,7 +200,7 @@
             display: flex;
             align-items: center;
             padding: 0 10%;
-            background: var(--gradient-hero);
+            background: linear-gradient(135deg, var(--light) 0%, var(--border-color) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -199,50 +208,19 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -30%;
-            right: -15%;
-            width: 60%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, transparent 70%);
+            top: -50%;
+            right: -20%;
+            width: 70%;
+            height: 140%;
+            background: var(--gradient);
             border-radius: 50%;
-            animation: pulse 8s ease-in-out infinite;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -40%;
-            left: -10%;
-            width: 50%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 192, 203, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .floating-decoration {
-            position: absolute;
-            font-size: 2rem;
-            animation: floatAround 6s ease-in-out infinite;
-            opacity: 0.6;
-        }
-
-        .floating-decoration:nth-child(1) { top: 15%; left: 5%; animation-delay: 0s; }
-        .floating-decoration:nth-child(2) { top: 25%; right: 8%; animation-delay: 1s; }
-        .floating-decoration:nth-child(3) { bottom: 20%; left: 8%; animation-delay: 2s; }
-        .floating-decoration:nth-child(4) { bottom: 30%; right: 5%; animation-delay: 3s; }
-        .floating-decoration:nth-child(5) { top: 50%; left: 3%; animation-delay: 4s; }
-
-        @keyframes floatAround {
+        @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(5deg); }
-            50% { transform: translateY(-5px) rotate(-5deg); }
-            75% { transform: translateY(-20px) rotate(3deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
 
         .hero-content {
@@ -263,55 +241,44 @@
         }
 
         .hero-text h1 span {
-            background: var(--gradient-pink);
+            background: var(--gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            position: relative;
-        }
-
-        .hero-text h1 span::after {
-            content: '✨';
-            position: absolute;
-            -webkit-text-fill-color: initial;
-            font-size: 1.5rem;
-            top: -10px;
-            right: -30px;
-            animation: sparkle 2s ease-in-out infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-            50% { opacity: 0.5; transform: scale(1.2) rotate(20deg); }
         }
 
         .hero-text .subtitle {
-            font-size: 1.25rem;
-            color: var(--gray);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .hero-text .subtitle::before {
-            content: '💖';
+        .subtitle-tag {
+            background: var(--gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
         }
 
         .hero-text p {
-            color: var(--gray);
+            color: var(--text-secondary);
             margin-bottom: 2rem;
             font-size: 1.1rem;
-            line-height: 1.8;
         }
 
         .hero-buttons {
             display: flex;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 0.875rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 500;
@@ -319,46 +286,30 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
-            background: var(--gradient-pink);
+            background: var(--gradient);
             color: white;
-            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
         }
 
         .btn-primary:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255, 107, 157, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
         }
 
         .btn-secondary {
             border: 2px solid var(--primary);
             color: var(--primary);
-            background: rgba(255, 255, 255, 0.8);
+            background: transparent;
         }
 
         .btn-secondary:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-5px);
         }
 
         .hero-visual {
@@ -371,68 +322,47 @@
             width: 350px;
             height: 350px;
             border-radius: 50%;
-            background: var(--gradient-pink);
-            padding: 6px;
+            background: var(--gradient);
+            padding: 5px;
             position: relative;
-            animation: avatarGlow 3s ease-in-out infinite;
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        @keyframes avatarGlow {
-            0%, 100% { 
-                box-shadow: 0 0 30px rgba(255, 107, 157, 0.5),
-                            0 0 60px rgba(255, 107, 157, 0.3),
-                            0 0 90px rgba(255, 107, 157, 0.1);
-            }
-            50% { 
-                box-shadow: 0 0 40px rgba(255, 107, 157, 0.6),
-                            0 0 80px rgba(255, 107, 157, 0.4),
-                            0 0 120px rgba(255, 107, 157, 0.2);
-            }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
         }
 
         .avatar-inner {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: white;
+            background: var(--card-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .avatar-inner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            transition: transform 0.5s;
-        }
-
-        .avatar-inner:hover img {
-            transform: scale(1.1);
+            font-size: 8rem;
         }
 
         .floating-badge {
             position: absolute;
-            background: white;
+            background: var(--card-bg);
             padding: 1rem 1.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
             gap: 0.75rem;
             animation: floatBadge 4s ease-in-out infinite;
-            border: 2px solid rgba(255, 107, 157, 0.1);
         }
 
-        .floating-badge.one { top: 10%; left: -15%; animation-delay: 0s; }
-        .floating-badge.two { bottom: 20%; right: -15%; animation-delay: 1s; }
-        .floating-badge.three { bottom: 0%; left: -5%; animation-delay: 2s; }
+        .floating-badge.one { top: 10%; left: -10%; animation-delay: 0s; }
+        .floating-badge.two { bottom: 20%; right: -10%; animation-delay: 1s; }
+        .floating-badge.three { bottom: 5%; left: 0; animation-delay: 2s; }
 
         @keyframes floatBadge {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .floating-badge i {
@@ -442,13 +372,31 @@
 
         .floating-badge span {
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
         }
 
         /* Section Styles */
         section {
             padding: 6rem 10%;
-            position: relative;
         }
 
         .section-header {
@@ -461,552 +409,31 @@
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
-            color: var(--dark);
-        }
-
-        .section-header h2::before {
-            content: '🌸';
-            position: absolute;
-            left: -50px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
+            color: var(--text-primary);
         }
 
         .section-header h2::after {
-            content: '🌸';
+            content: '';
             position: absolute;
-            right: -50px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-        }
-
-        .section-header .underline {
-            width: 80px;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
             height: 4px;
-            background: var(--gradient-pink);
-            margin: 1rem auto;
+            background: var(--gradient);
             border-radius: 2px;
         }
 
         .section-header p {
-            color: var(--gray);
+            color: var(--text-secondary);
             font-size: 1.1rem;
             max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* About Section */
-        .about {
-            background: white;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .stat-card {
-            background: var(--gradient-light);
-            padding: 2rem;
-            border-radius: 25px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 107, 157, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary-light);
-            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.2);
-        }
-
-        .stat-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient-pink);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-card .label {
-            color: var(--gray);
-            margin-top: 0.5rem;
-            font-weight: 500;
-        }
-
-        .about-text h3 {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .about-text h3::before {
-            content: '💫';
-        }
-
-        .about-text p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .info-list {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .info-list li {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 15px;
-            transition: all 0.3s;
-            margin-bottom: 0.5rem;
-        }
-
-        .info-list li:hover {
-            background: var(--gradient-light);
-            transform: translateX(10px);
-        }
-
-        .info-list li i {
-            color: var(--primary);
-            width: 25px;
-            font-size: 1.1rem;
-        }
-
-        .info-list li strong {
-            min-width: 80px;
-            color: var(--dark);
-        }
-
-        /* Product Story Section - NEW */
-        .product-story {
-            background: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 50%, #ffd6e0 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-story::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b9d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        .story-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .story-intro {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .story-intro .big-quote {
-            font-size: 1.5rem;
-            color: var(--dark);
-            font-style: italic;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding: 2rem 3rem;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.15);
-        }
-
-        .story-intro .big-quote::before {
-            content: '"';
-            position: absolute;
-            top: -20px;
-            left: 30px;
-            font-size: 6rem;
-            color: var(--primary-light);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .story-intro .big-quote::after {
-            content: '"';
-            position: absolute;
-            bottom: -50px;
-            right: 30px;
-            font-size: 6rem;
-            color: var(--primary-light);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .story-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .story-card {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 2rem;
-            background: white;
-            padding: 2.5rem;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.1);
-            transition: all 0.4s;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .story-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--gradient-pink);
-        }
-
-        .story-card:hover {
-            transform: translateX(10px);
-            border-color: var(--primary-light);
-            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.2);
-        }
-
-        .story-icon {
-            width: 100px;
-            height: 100px;
-            background: var(--gradient-pink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-            flex-shrink: 0;
-        }
-
-        .story-content h3 {
-            font-size: 1.4rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .story-content p {
-            color: var(--gray);
-            line-height: 1.9;
-            margin-bottom: 1rem;
-        }
-
-        .story-content .highlight {
-            background: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 100%);
-            padding: 1rem 1.5rem;
-            border-radius: 15px;
-            border-left: 4px solid var(--primary);
-            margin-top: 1rem;
-        }
-
-        .story-content .highlight p {
-            margin: 0;
-            color: var(--dark);
-            font-weight: 500;
-        }
-
-        /* Validation Cards */
-        .validation-section {
-            margin-top: 3rem;
-        }
-
-        .validation-section h3 {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            color: var(--dark);
-        }
-
-        .validation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .validation-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.1);
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            text-align: center;
-        }
-
-        .validation-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary-light);
-            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.2);
-        }
-
-        .validation-card .idea-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .validation-card .idea {
-            font-size: 1.1rem;
-            color: var(--dark);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .validation-card .time {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-
-        .validation-card .arrow {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin: 0.5rem 0;
-        }
-
-        .validation-card .result {
-            font-size: 0.95rem;
-            color: var(--primary-dark);
-            font-weight: 500;
-            background: var(--gradient-light);
-            padding: 0.75rem 1rem;
-            border-radius: 15px;
-        }
-
-        /* Call to Action */
-        .story-cta {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 3rem;
-            background: white;
-            border-radius: 30px;
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.15);
-        }
-
-        .story-cta h3 {
-            font-size: 1.75rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .story-cta p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-
-        .story-cta .cta-highlight {
-            display: inline-block;
-            background: var(--gradient-pink);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
-        }
-
-        /* Personal Traits Section */
-        .traits {
-            background: var(--gradient-light);
-            position: relative;
-        }
-
-        .traits::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff6b9d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        .traits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .trait-card {
-            background: white;
-            padding: 2.5rem 2rem;
-            border-radius: 25px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.1);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .trait-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: var(--gradient-pink);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .trait-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .trait-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 50px rgba(255, 107, 157, 0.25);
-            border-color: var(--primary-light);
-        }
-
-        .trait-icon {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 1.5rem;
-            background: var(--gradient-pink);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
-            transition: all 0.3s;
-        }
-
-        .trait-card:hover .trait-icon {
-            transform: scale(1.1) rotate(10deg);
-        }
-
-        .trait-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .trait-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* Hobbies Section */
-        .hobbies {
-            background: white;
-        }
-
-        .hobbies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 2rem;
-        }
-
-        .hobby-card {
-            background: var(--gradient-light);
-            padding: 2.5rem 1.5rem;
-            border-radius: 25px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid transparent;
-            cursor: pointer;
-        }
-
-        .hobby-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.2);
-            background: white;
-        }
-
-        .hobby-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            transition: transform 0.3s;
-        }
-
-        .hobby-card:hover .hobby-icon {
-            transform: scale(1.2) rotate(-10deg);
-            animation: bounce 0.5s ease;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: scale(1.2) rotate(-10deg) translateY(0); }
-            50% { transform: scale(1.2) rotate(-10deg) translateY(-10px); }
-        }
-
-        .hobby-card h3 {
-            font-size: 1.1rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .hobby-card p {
-            color: var(--gray);
-            font-size: 0.85rem;
+            margin: 1.5rem auto 0;
         }
 
         /* Education Section */
         .education {
-            background: var(--gradient-light);
+            background: var(--card-bg);
         }
 
         .timeline {
@@ -1022,7 +449,7 @@
             transform: translateX(-50%);
             width: 4px;
             height: 100%;
-            background: var(--gradient-pink);
+            background: var(--gradient);
             border-radius: 2px;
         }
 
@@ -1041,181 +468,87 @@
         }
 
         .timeline-item::before {
-            content: '🌸';
+            content: '';
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.5rem;
-            background: white;
-            padding: 0.5rem;
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+            border: 4px solid var(--card-bg);
+            box-shadow: 0 0 0 4px var(--primary);
         }
 
         .timeline-content {
-            background: white;
+            background: var(--light);
             padding: 2rem;
-            border-radius: 25px;
-            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             width: 90%;
             margin: 0 2rem;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            transition: transform 0.3s;
         }
 
         .timeline-content:hover {
             transform: translateY(-5px);
-            border-color: var(--primary-light);
-            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.2);
         }
 
         .timeline-content .date {
             display: inline-block;
-            background: var(--gradient-pink);
+            background: var(--gradient);
             color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
             margin-bottom: 1rem;
-            font-weight: 500;
         }
 
         .timeline-content h3 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             margin-bottom: 0.5rem;
-            color: var(--dark);
+            color: var(--text-primary);
         }
 
         .timeline-content .school {
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 500;
             margin-bottom: 1rem;
-            font-size: 1.05rem;
         }
 
         .timeline-content p {
-            color: var(--gray);
+            color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* Skills Section */
-        .skills {
-            background: white;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-category {
-            background: var(--gradient-light);
-            padding: 2rem;
-            border-radius: 25px;
-            transition: all 0.4s;
-            border: 2px solid transparent;
-        }
-
-        .skill-category:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(255, 107, 157, 0.15);
-            border-color: var(--primary-light);
-        }
-
-        .skill-category h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.25rem;
-            color: var(--dark);
-        }
-
-        .skill-category h3 i {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-tag {
-            background: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            border: 2px solid #ffe4ec;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .skill-tag:hover {
-            background: var(--gradient-pink);
-            color: white;
-            border-color: transparent;
-            transform: scale(1.05);
         }
 
         /* Projects Section */
         .projects {
-            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a2e 100%);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .projects::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ff6b9d' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        .projects .section-header h2,
-        .projects .section-header p {
-            color: white;
-        }
-
-        .projects .section-header h2::before,
-        .projects .section-header h2::after {
-            content: '✨';
+            background: var(--light);
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2rem;
-            position: relative;
-            z-index: 1;
         }
 
         .project-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
+            background: var(--card-bg);
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s;
-            border: 2px solid rgba(255, 107, 157, 0.2);
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
         }
 
         .project-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 30px 60px rgba(255, 107, 157, 0.3);
-            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .project-header {
             padding: 2rem;
-            background: var(--gradient-pink);
+            background: var(--gradient);
+            color: white;
         }
 
         .project-header h3 {
@@ -1232,10 +565,11 @@
             padding: 2rem;
         }
 
-        .project-body p {
-            color: rgba(255, 255, 255, 0.85);
+        .project-body > p {
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
             line-height: 1.8;
+            font-size: 1rem;
         }
 
         .project-highlights {
@@ -1247,13 +581,19 @@
             align-items: flex-start;
             gap: 0.75rem;
             margin-bottom: 1rem;
-            color: rgba(255, 255, 255, 0.85);
+            color: var(--text-secondary);
             font-size: 0.95rem;
+            line-height: 1.7;
         }
 
         .project-highlights li i {
-            color: #ffd700;
-            margin-top: 0.25rem;
+            color: var(--success);
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        .project-highlights li strong {
+            color: var(--text-primary);
         }
 
         .project-tech {
@@ -1262,14 +602,15 @@
             gap: 0.5rem;
             margin-top: 1.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border-color);
         }
 
         .tech-tag {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            background: var(--light);
+            color: var(--text-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
         }
 
         .btn-demo {
@@ -1277,23 +618,23 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 1.5rem;
-            padding: 0.875rem 1.75rem;
-            background: white;
-            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient);
+            color: white;
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
+            border-radius: 25px;
+            font-weight: 500;
             transition: all 0.3s;
         }
 
         .btn-demo:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
         }
 
         /* Experience Section */
         .experience {
-            background: var(--gradient-light);
+            background: var(--card-bg);
         }
 
         .exp-cards {
@@ -1308,17 +649,16 @@
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 2rem;
-            background: white;
+            background: var(--light);
             padding: 2rem;
-            border-radius: 25px;
-            transition: all 0.4s;
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
         }
 
         .exp-card:hover {
-            transform: translateX(15px);
-            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.2);
+            transform: translateX(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .exp-meta {
@@ -1327,20 +667,20 @@
 
         .exp-meta .company {
             font-size: 1.25rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--primary);
             margin-bottom: 0.5rem;
         }
 
         .exp-meta .position {
-            color: var(--gray);
-            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
         }
 
         .exp-meta .date {
             font-size: 0.9rem;
-            color: var(--gray);
-            background: var(--gradient-light);
+            color: var(--text-secondary);
+            background: var(--card-bg);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             display: inline-block;
@@ -1354,20 +694,541 @@
             position: relative;
             padding-left: 1.5rem;
             margin-bottom: 0.75rem;
-            color: var(--gray);
-            line-height: 1.7;
+            color: var(--text-secondary);
         }
 
         .exp-content ul li::before {
-            content: '💗';
+            content: '▹';
             position: absolute;
             left: 0;
+            color: var(--primary);
+        }
+
+        /* Iteration Section */
+        .iteration {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .iteration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .iteration .section-header h2,
+        .iteration .section-header p {
+            color: white;
+        }
+
+        .iteration-intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .iteration-intro .highlight-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .iteration-intro h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .iteration-intro p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+        }
+
+        .version-timeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .version-node {
+            text-align: center;
+        }
+
+        .version-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0 auto 0.5rem;
+        }
+
+        .version-circle.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .version-circle.current {
+            background: var(--gradient);
+            color: white;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .version-circle.future {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .version-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .version-arrow {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .iteration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .iteration-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .iteration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .iteration-card-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .iteration-card-header.mvp {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .iteration-card-header.v2 {
+            background: var(--gradient);
+        }
+
+        .iteration-card-header.future {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .version-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .iteration-card-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .iteration-card-body {
+            padding: 1.5rem;
+        }
+
+        .iteration-card-body p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+        }
+
+        .feature-list li i.fa-check-circle {
+            color: var(--success);
+        }
+
+        .feature-list li i.fa-clock {
+            color: var(--accent);
+        }
+
+        .thinking-process {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .thinking-process h4 {
+            font-size: 0.9rem;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .thinking-process p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .ai-collab {
+            margin-top: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-collab h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .prompt-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .prompt-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .prompt-card .label {
             font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .prompt-card .prompt-text {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-card .result {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .prompt-card .result i {
+            color: var(--success);
+            margin-right: 0.5rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--light);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .about-text h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-list li i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .info-list li strong {
+            min-width: 80px;
+            color: var(--text-primary);
+        }
+
+        .info-list li span {
+            color: var(--text-secondary);
+        }
+
+        /* Skills Section */
+        .skills {
+            background: var(--card-bg);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .skill-category h3 i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .skill-tag:hover {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Personality Section - 新增 */
+        .personality {
+            background: linear-gradient(135deg, var(--light) 0%, var(--border-color) 100%);
+        }
+
+        .personality-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .personality-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .personality-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .personality-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .personality-card h3 i {
+            color: var(--primary);
+        }
+
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .hobby-item {
+            background: var(--light);
+            padding: 1.25rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .hobby-item:hover {
+            background: var(--gradient);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .hobby-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--primary);
+        }
+
+        .hobby-item:hover i {
+            color: white;
+        }
+
+        .hobby-item span {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .trait-list {
+            list-style: none;
+        }
+
+        .trait-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .trait-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .trait-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .trait-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .trait-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         /* Contact Section */
         .contact {
-            background: white;
+            background: var(--card-bg);
         }
 
         .contact-content {
@@ -1381,19 +1242,12 @@
         .contact-info h3 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .contact-info h3::before {
-            content: '💌';
+            color: var(--text-primary);
         }
 
         .contact-info p {
-            color: var(--gray);
+            color: var(--text-secondary);
             margin-bottom: 2rem;
-            line-height: 1.8;
         }
 
         .contact-methods {
@@ -1406,51 +1260,41 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1rem;
-            border-radius: 15px;
-            transition: all 0.3s;
-        }
-
-        .contact-method:hover {
-            background: var(--gradient-light);
-            transform: translateX(10px);
         }
 
         .contact-method i {
-            width: 55px;
-            height: 55px;
-            background: var(--gradient-pink);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
-            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
         }
 
         .contact-method div strong {
             display: block;
             margin-bottom: 0.25rem;
-            color: var(--dark);
+            color: var(--text-primary);
         }
 
         .contact-method div span {
-            color: var(--gray);
+            color: var(--text-secondary);
         }
 
         .contact-card {
-            background: var(--gradient-light);
+            background: var(--light);
             padding: 3rem;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.15);
-            border: 2px solid rgba(255, 107, 157, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .contact-card h3 {
             text-align: center;
             margin-bottom: 2rem;
-            font-size: 1.5rem;
+            color: var(--text-primary);
         }
 
         .social-links {
@@ -1461,71 +1305,146 @@
         }
 
         .social-link {
-            width: 55px;
-            height: 55px;
-            background: white;
-            color: var(--dark);
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            color: var(--text-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.1);
+            transition: all 0.3s;
         }
 
         .social-link:hover {
-            background: var(--gradient-pink);
+            background: var(--gradient);
             color: white;
-            transform: translateY(-8px) rotate(10deg);
-            box-shadow: 0 15px 30px rgba(255, 107, 157, 0.3);
+            transform: translateY(-5px);
         }
 
-        .contact-card-inner {
+        .cta-box {
             text-align: center;
             padding: 2rem;
-            background: white;
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
         }
 
-        .contact-card-inner i {
+        .cta-box i {
             font-size: 3rem;
             color: var(--primary);
             margin-bottom: 1rem;
-            animation: heartbeat 1.5s ease-in-out infinite;
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.1); }
+        .cta-box p {
+            color: var(--text-secondary);
         }
 
-        .contact-card-inner p {
-            color: var(--gray);
-            line-height: 1.8;
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
         }
 
         /* Footer */
         footer {
-            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a2e 100%);
+            background: #1e293b;
             color: white;
             text-align: center;
-            padding: 2.5rem;
-            position: relative;
-        }
-
-        footer::before {
-            content: '🌸 Made with Love 🌸';
-            display: block;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            padding: 2rem;
         }
 
         footer p {
-            opacity: 0.8;
+            opacity: 0.7;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%;
+            height: 100vh;
+            background: var(--card-bg);
+            z-index: 1000;
+            padding: 5rem 2rem;
+            transition: right 0.3s;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav ul li a {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Responsive */
@@ -1539,26 +1458,23 @@
                 order: -1;
             }
 
+            .hero-buttons {
+                justify-content: center;
+            }
+
             .avatar-container {
-                width: 280px;
-                height: 280px;
+                width: 250px;
+                height: 250px;
             }
 
             .floating-badge {
                 display: none;
             }
 
-            .about-content {
+            .about-content,
+            .contact-content,
+            .personality-content {
                 grid-template-columns: 1fr;
-            }
-
-            .story-card {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .story-icon {
-                margin: 0 auto 1.5rem;
             }
 
             .timeline::before {
@@ -1585,17 +1501,25 @@
                 grid-template-columns: 1fr;
             }
 
-            .contact-content {
+            .projects-grid,
+            .iteration-grid {
                 grid-template-columns: 1fr;
             }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-header h2::before,
-            .section-header h2::after {
+            .nav-links {
                 display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .version-timeline {
+                flex-direction: column;
+            }
+
+            .version-arrow {
+                transform: rotate(90deg);
             }
         }
 
@@ -1604,20 +1528,12 @@
                 padding: 1rem;
             }
 
-            .nav-links {
-                display: none;
-            }
-
             .hero {
                 padding: 0 5%;
             }
 
             .hero-text h1 {
                 font-size: 2.5rem;
-            }
-
-            .hero-text h1 span::after {
-                display: none;
             }
 
             section {
@@ -1629,77 +1545,76 @@
                 align-items: center;
             }
 
-            .floating-decoration {
+            .scroll-indicator {
                 display: none;
             }
-
-            .validation-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 鼠标跟随效果 */
-        .cursor-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 107, 157, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
         }
     </style>
 </head>
 <body>
-    <!-- 樱花飘落效果 -->
-    <div class="sakura-container" id="sakura-container"></div>
-    
-    <!-- 鼠标跟随光效 -->
-    <div class="cursor-glow" id="cursor-glow"></div>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
 
     <!-- Navigation -->
     <nav id="navbar">
         <div class="logo">Tao Cheng</div>
         <ul class="nav-links">
             <li><a href="#home">首页</a></li>
-            <li><a href="#about">关于我</a></li>
-            <li><a href="#product-story">产品之路</a></li>
-            <li><a href="#skills">技能</a></li>
-            <li><a href="#projects">项目</a></li>
+            <li><a href="#education">教育背景</a></li>
+            <li><a href="#projects">项目经历</a></li>
+            <li><a href="#experience">实习经历</a></li>
+            <li><a href="#iteration">产品之路</a></li>
+            <li><a href="#personality">关于我</a></li>
+            <li><a href="#contact">联系我</a></li>
+            <li>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </li>
+        </ul>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="#home">首页</a></li>
+            <li><a href="#education">教育背景</a></li>
+            <li><a href="#projects">项目经历</a></li>
+            <li><a href="#experience">实习经历</a></li>
+            <li><a href="#iteration">产品之路</a></li>
+            <li><a href="#personality">关于我</a></li>
             <li><a href="#contact">联系我</a></li>
         </ul>
-    </nav>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="floating-decoration">🌸</div>
-        <div class="floating-decoration">💖</div>
-        <div class="floating-decoration">✨</div>
-        <div class="floating-decoration">🌷</div>
-        <div class="floating-decoration">💫</div>
-        
         <div class="hero-content">
             <div class="hero-text">
                 <h1>你好，我是<span>程涛</span></h1>
-                <p class="subtitle">产品经理 | 数据分析师 | AI 爱好者</p>
+                <p class="subtitle">
+                    <span class="subtitle-tag">🎯 产品经理</span>
+                    <span class="subtitle-tag">📊 数据分析师</span>
+                    <span class="subtitle-tag">🤖 AI 爱好者</span>
+                </p>
                 <p>约翰霍普金斯大学商业分析与人工智能硕士在读，专注于用数据驱动产品创新，用AI赋能业务增长。擅长将复杂问题转化为可执行的产品方案。</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">
-                        <i class="fas fa-rocket"></i> 查看项目
+                        <i class="fas fa-folder-open"></i> 查看项目
+                    </a>
+                    <a href="#iteration" class="btn btn-secondary">
+                        <i class="fas fa-rocket"></i> 产品之路
                     </a>
                     <a href="#contact" class="btn btn-secondary">
                         <i class="fas fa-envelope"></i> 联系我
@@ -1708,253 +1623,25 @@
             </div>
             <div class="hero-visual">
                 <div class="avatar-container">
-                    <div class="avatar-inner">
-                        <img src="avatar.jpg" alt="程涛">
-                    </div>
+                    <div class="avatar-inner">👨‍💻</div>
                 </div>
                 <div class="floating-badge one">
                     <i class="fas fa-university"></i>
-                    <span>JHU 🎓</span>
+                    <span>JHU Top 6</span>
                 </div>
                 <div class="floating-badge two">
                     <i class="fas fa-chart-line"></i>
-                    <span>数据分析 📊</span>
+                    <span>数据驱动</span>
                 </div>
                 <div class="floating-badge three">
                     <i class="fas fa-robot"></i>
-                    <span>AI产品 🤖</span>
+                    <span>AI产品</span>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="section-header">
-            <h2>关于我</h2>
-            <div class="underline"></div>
-            <p>跨学科背景，融合财务思维与技术能力，致力于打造有价值的产品</p>
-        </div>
-        <div class="about-content">
-            <div class="about-stats">
-                <div class="stat-card">
-                    <div class="number">3+</div>
-                    <div class="label">实习经历</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">Top 10%</div>
-                    <div class="label">专业排名</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">326</div>
-                    <div class="label">GRE成绩</div>
-                </div>
-                <div class="stat-card">
-                    <div class="number">7.0</div>
-                    <div class="label">雅思成绩</div>
-                </div>
-            </div>
-            <div class="about-text">
-                <h3>数据驱动决策，产品创造价值</h3>
-                <p>我是一名即将在约翰霍普金斯大学攻读商业分析与人工智能硕士的学生。本科期间主修财务管理，培养了扎实的数据分析和商业思维能力。</p>
-                <p>通过在中国银河、华宝证券、中信建投等金融机构的实习经历，我积累了丰富的数据分析、行业研究和产品设计经验。</p>
-                <ul class="info-list">
-                    <li><i class="fas fa-map-marker-alt"></i><strong>位置</strong> 南京 / 华盛顿</li>
-                    <li><i class="fas fa-graduation-cap"></i><strong>学历</strong> 硕士在读 (JHU)</li>
-                    <li><i class="fas fa-briefcase"></i><strong>方向</strong> 产品经理 / 数据分析</li>
-                    <li><i class="fas fa-envelope"></i><strong>邮箱</strong> chengtao020624@126.com</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Story Section - NEW -->
-    <section class="product-story" id="product-story">
-        <div class="section-header">
-            <h2>我的产品之路</h2>
-            <div class="underline"></div>
-            <p>从天生的产品直觉，到系统的产品实践</p>
-        </div>
-        
-        <div class="story-container">
-            <!-- 开场白 -->
-            <div class="story-intro">
-                <div class="big-quote">
-                    我想当产品经理，可能是一种"命中注定"。<br>
-                    从小我就有一个习惯：用任何软件时，脑子里都会冒出<br>
-                    <strong>"如果是我，会怎么改"</strong> 的想法。
-                </div>
-            </div>
-
-            <!-- 故事时间线 -->
-            <div class="story-timeline">
-                <div class="story-card">
-                    <div class="story-icon">🌱</div>
-                    <div class="story-content">
-                        <h3>💭 从个人需求到共同痛点</h3>
-                        <p>最初我以为这只是我个人的需求。但慢慢我发现，当我把想法说出来，身边的朋友都会说"对对对，我也这么觉得！"</p>
-                        <div class="highlight">
-                            <p>💡 原来这不是我一个人的痛点，而是<strong>大家的共同需求</strong>。好的产品洞察，往往是从个人痛点出发，最终指向普遍需求。</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="story-card">
-                    <div class="story-icon">✨</div>
-                    <div class="story-content">
-                        <h3>🔮 想法被市场验证的惊喜</h3>
-                        <p>更神奇的是，好几次我脑海中构思过的产品，过了一两年，真的被别人做出来了，而且还挺成功。</p>
-                        <p>每次看到这种情况，我都会想：<strong>如果当时是我来做，会不会更好？</strong></p>
-                        <div class="highlight">
-                            <p>🎯 这让我意识到：我不缺发现需求的眼光，缺的是<strong>把想法变成现实的能力</strong>。</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="story-card">
-                    <div class="story-icon">🚀</div>
-                    <div class="story-content">
-                        <h3>🎬 从"想到"到"做到"的转变</h3>
-                        <p>这种"总能想到、但没能做到"的遗憾，驱动我系统学习产品经理的方法论。从用户研究、需求分析到原型设计、数据验证，我开始将直觉转化为可落地的产品能力。</p>
-                        <p>于是有了<strong>AI宠物管家</strong>项目——我第一次完整体验了产品从0到1的过程。当用户反馈"这个功能太懂我了"时，我确信：<strong>这就是我想做的事。</strong></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 验证案例 -->
-            <div class="validation-section">
-                <h3>💫 那些被验证的产品直觉</h3>
-                <div class="validation-grid">
-                    <div class="validation-card">
-                        <div class="idea-icon">📝</div>
-                        <div class="idea">"要是有个App能帮我整理错题就好了"</div>
-                        <div class="time">高中时期的想法</div>
-                        <div class="arrow">↓</div>
-                        <div class="result">后来出现了猿题库、错题本功能 ✓</div>
-                    </div>
-                    <div class="validation-card">
-                        <div class="idea-icon">🍜</div>
-                        <div class="idea">"点外卖能不能根据我的口味自动推荐"</div>
-                        <div class="time">大学时期的想法</div>
-                        <div class="arrow">↓</div>
-                        <div class="result">美团、饿了么上线了个性化推荐 ✓</div>
-                    </div>
-                    <div class="validation-card">
-                        <div class="idea-icon">🐱</div>
-                        <div class="idea">"养宠新手需要一个AI顾问"</div>
-                        <div class="time">2024年的想法</div>
-                        <div class="arrow">↓</div>
-                        <div class="result">我自己做了AI宠物管家项目 ✓</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 总结 -->
-            <div class="story-cta">
-                <h3>🌟 为什么选择产品经理？</h3>
-                <p>
-                    产品经理吸引我的地方在于：它需要<strong>同时具备同理心和逻辑力</strong>——理解用户，也要说服团队；
-                    它是<strong>连接者而非执行者</strong>——不是写代码，而是定义"写什么代码"；
-                    它能让我<strong>看到自己工作的直接影响</strong>——DAU、转化率、用户好评都是即时反馈。
-                </p>
-                <div class="cta-highlight">
-                    💖 我不想再只是"想到"，我要"做到"
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Personal Traits Section -->
-    <section class="traits" id="traits">
-        <div class="section-header">
-            <h2>个人特质</h2>
-            <div class="underline"></div>
-            <p>积极向上，追求卓越</p>
-        </div>
-        <div class="traits-grid">
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-mountain"></i>
-                </div>
-                <h3>抗压能力强 💪</h3>
-                <p>能够在高压环境下保持冷静，高效完成任务，曾同时处理多个项目并按时交付</p>
-            </div>
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-smile-beam"></i>
-                </div>
-                <h3>性格活泼开朗 🌟</h3>
-                <p>善于与人沟通交流，能快速融入团队，营造积极的工作氛围</p>
-            </div>
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-                <h3>富有创意 💡</h3>
-                <p>善于跳出常规思维，提出创新解决方案，在比赛中多次获得创意类奖项</p>
-            </div>
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3>团队协作 🤝</h3>
-                <p>具备出色的团队合作精神，擅长协调资源，推动项目顺利进行</p>
-            </div>
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-book-reader"></i>
-                </div>
-                <h3>持续学习 📚</h3>
-                <p>保持对新知识的好奇心，主动学习前沿技术，不断提升专业能力</p>
-            </div>
-            <div class="trait-card">
-                <div class="trait-icon">
-                    <i class="fas fa-bullseye"></i>
-                </div>
-                <h3>目标导向 🎯</h3>
-                <p>做事有条理，注重结果，能够制定清晰目标并坚定执行</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Hobbies Section -->
-    <section class="hobbies" id="hobbies">
-        <div class="section-header">
-            <h2>兴趣爱好</h2>
-            <div class="underline"></div>
-            <p>热爱生活，全面发展</p>
-        </div>
-        <div class="hobbies-grid">
-            <div class="hobby-card">
-                <div class="hobby-icon">🎻</div>
-                <h3>小提琴</h3>
-                <p>学习多年，享受音乐带来的宁静</p>
-            </div>
-            <div class="hobby-card">
-                <div class="hobby-icon">🏊</div>
-                <h3>游泳</h3>
-                <p>强身健体，释放压力的最佳方式</p>
-            </div>
-            <div class="hobby-card">
-                <div class="hobby-icon">🎾</div>
-                <h3>网球</h3>
-                <p>享受挥拍的快感，锻炼反应能力</p>
-            </div>
-            <div class="hobby-card">
-                <div class="hobby-icon">✈️</div>
-                <h3>旅行</h3>
-                <p>探索世界，体验不同文化</p>
-            </div>
-            <div class="hobby-card">
-                <div class="hobby-icon">📚</div>
-                <h3>阅读</h3>
-                <p>拓宽视野，汲取知识的养分</p>
-            </div>
-            <div class="hobby-card">
-                <div class="hobby-icon">🎬</div>
-                <h3>电影</h3>
-                <p>欣赏光影艺术，感受故事魅力</p>
-            </div>
+        <div class="scroll-indicator">
+            <span>向下滚动</span>
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
@@ -1962,12 +1649,11 @@
     <section class="education" id="education">
         <div class="section-header">
             <h2>教育背景</h2>
-            <div class="underline"></div>
             <p>持续学习，不断成长</p>
         </div>
         <div class="timeline">
             <div class="timeline-item">
-                <div class="timeline-content">
+                <div class="timeline-content fade-in">
                     <span class="date">2025.08 - 2026.08</span>
                     <h3>商业分析与人工智能 硕士</h3>
                     <p class="school">🎓 约翰霍普金斯大学 (US News 第6名)</p>
@@ -1975,7 +1661,7 @@
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-content">
+                <div class="timeline-content fade-in">
                     <span class="date">2020.09 - 2024.06</span>
                     <h3>财务管理 本科</h3>
                     <p class="school">🎓 南京邮电大学</p>
@@ -1987,118 +1673,45 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section class="skills" id="skills">
-        <div class="section-header">
-            <h2>专业技能</h2>
-            <div class="underline"></div>
-            <p>全栈产品能力 + 数据分析技术</p>
-        </div>
-        <div class="skills-grid">
-            <div class="skill-category">
-                <h3><i class="fas fa-pencil-ruler"></i> 产品设计</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Figma</span>
-                    <span class="skill-tag">墨刀</span>
-                    <span class="skill-tag">PRD撰写</span>
-                    <span class="skill-tag">需求分析</span>
-                    <span class="skill-tag">竞品分析</span>
-                    <span class="skill-tag">用户研究</span>
-                    <span class="skill-tag">流程图绘制</span>
-                    <span class="skill-tag">Kano模型</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-code"></i> 编程开发</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Pandas</span>
-                    <span class="skill-tag">NumPy</span>
-                    <span class="skill-tag">Matplotlib</span>
-                    <span class="skill-tag">SQL</span>
-                    <span class="skill-tag">MySQL</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-chart-bar"></i> 数据分析</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">Tableau</span>
-                    <span class="skill-tag">Excel数据透视</span>
-                    <span class="skill-tag">SPSS</span>
-                    <span class="skill-tag">MATLAB</span>
-                    <span class="skill-tag">数据可视化</span>
-                    <span class="skill-tag">RFM模型</span>
-                    <span class="skill-tag">K-means聚类</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-robot"></i> AI技术</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">RAG系统</span>
-                    <span class="skill-tag">Milvus向量数据库</span>
-                    <span class="skill-tag">大模型应用</span>
-                    <span class="skill-tag">Prompt Engineering</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-building"></i> 商业分析</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">SWOT分析</span>
-                    <span class="skill-tag">PEST模型</span>
-                    <span class="skill-tag">财务分析</span>
-                    <span class="skill-tag">行业研究</span>
-                    <span class="skill-tag">市场调研</span>
-                </div>
-            </div>
-            <div class="skill-category">
-                <h3><i class="fas fa-language"></i> 语言能力</h3>
-                <div class="skill-tags">
-                    <span class="skill-tag">雅思 7.0</span>
-                    <span class="skill-tag">GRE 326</span>
-                    <span class="skill-tag">中文母语</span>
-                    <span class="skill-tag">英文流利</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Projects Section -->
     <section class="projects" id="projects">
         <div class="section-header">
             <h2>项目经历</h2>
-            <div class="underline"></div>
-            <p>从0到1的产品实践</p>
+            <p>从0到1的产品实践，数据驱动的增长思维</p>
         </div>
         <div class="projects-grid">
-         <div class="project-card">
-    <div class="project-header">
-        <h3>🐾 AI宠物管家</h3>
-        <p class="role">智能养宠健康管理平台 | 产品负责人</p>
-    </div>
-    <div class="project-body">
-        <p>负责从0到1打造一款AI驱动的宠物健康SaaS产品，旨在通过即时咨询与主动管理降低宠物主的健康焦虑。</p>
-        <ul class="project-highlights">
-            <li><i class="fas fa-check"></i><strong>需求挖掘与MVP定义：</strong>深度访谈50+宠物主，结合Kano模型识别出"必备型需求"（如症状快速筛查）与"期望型需求"（如个性化养护日历），确定MVP聚焦"AI健康顾问"和"智能养护日历"两个核心场景</li>
-            <li><i class="fas fa-check"></i><strong>MVP快速验证：</strong>设计并推动开发分场景咨询对话流与基础养护日历，上线2周内吸引200+种子用户，通过问卷和会话日志发现用户对专业回答准确性要求极高</li>
-            <li><i class="fas fa-check"></i><strong>基于数据的迭代优化：</strong>针对测试中专业问题回答准确率偏低的问题，构建RAG系统引入宠物领域知识库，使专业问题回答命中率相对提升30%</li>
-            <li><i class="fas fa-check"></i><strong>体验优化：</strong>完善意图识别，对是否需要领域知识的情况进行分流，并为RAG增加混合分层索引重构检索逻辑，将平均响应时间降低40%，显著改善咨询流畅度</li>
-        </ul>
-        <div class="project-tech">
-            <span class="tech-tag">Kano模型</span>
-            <span class="tech-tag">MVP验证</span>
-            <span class="tech-tag">RAG</span>
-            <span class="tech-tag">用户访谈</span>
-            <span class="tech-tag">数据驱动迭代</span>
-        </div>
-        <a href="/pet/" target="_blank" class="btn-demo">
-            <i class="fas fa-eye"></i> 查看 Demo
-        </a>
-    </div>
-</div>
-            <div class="project-card">
+            <!-- AI宠物管家 -->
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <h3>🐾 AI宠物管家</h3>
+                    <p class="role">智能养宠健康管理平台 | 产品负责人</p>
+                </div>
+                <div class="project-body">
+                    <p>负责从0到1打造一款AI驱动的宠物健康SaaS产品，旨在通过即时咨询与主动管理降低宠物主的健康焦虑。</p>
+                    <ul class="project-highlights">
+                        <li><i class="fas fa-check"></i><strong>需求挖掘与MVP定义：</strong>深度访谈50+宠物主，结合Kano模型识别出"必备型需求"（如症状快速筛查）与"期望型需求"（如个性化养护日历），确定MVP聚焦"AI健康顾问"和"智能养护日历"两个核心场景</li>
+                        <li><i class="fas fa-check"></i><strong>MVP快速验证：</strong>设计并推动开发分场景咨询对话流与基础养护日历，通过问卷和会话日志发现用户对专业回答准确性要求极高</li>
+                        <li><i class="fas fa-check"></i><strong>基于数据的迭代优化：</strong>针对测试中专业问题回答准确率偏低的问题，构建RAG系统引入宠物领域知识库，使专业问题回答命中率相对提升30%</li>
+                        <li><i class="fas fa-check"></i><strong>体验优化：</strong>完善意图识别，对是否需要领域知识的情况进行分流，并为RAG增加混合分层索引重构检索逻辑，将平均响应时间降低40%，显著改善咨询流畅度</li>
+                    </ul>
+                    <div class="project-tech">
+                        <span class="tech-tag">Kano模型</span>
+                        <span class="tech-tag">MVP验证</span>
+                        <span class="tech-tag">RAG</span>
+                        <span class="tech-tag">用户访谈</span>
+                        <span class="tech-tag">数据驱动迭代</span>
+                    </div>
+                    <a href="/pet/" target="_blank" class="btn-demo">
+                        <i class="fas fa-eye"></i> 点击查看
+                    </a>
+                </div>
+            </div>
+
+            <!-- 物联网农业 -->
+            <div class="project-card fade-in">
                 <div class="project-header">
                     <h3>🌾 物联网赋能农业</h3>
-                    <p class="role">"互联网+"大赛项目 | 团队负责人</p>
+                    <p class="role">"互联网+"大赛项目 | 团队负责人 | 2021.03 - 2022.03</p>
                 </div>
                 <div class="project-body">
                     <p>农业物联网解决方案，通过数据驱动提升农业生产效率</p>
@@ -2107,12 +1720,14 @@
                         <li><i class="fas fa-check"></i>搭建MySQL数据库，整合清洗2.6万+条数据</li>
                         <li><i class="fas fa-check"></i>设计B端管理者看板，降低30%单亩管理成本</li>
                         <li><i class="fas fa-check"></i>运用SWOT与PEST模型进行可行性分析</li>
+                        <li><i class="fas fa-check"></i>抽象12个关键数据监测节点，优化农事流程</li>
                     </ul>
                     <div class="project-tech">
                         <span class="tech-tag">MySQL</span>
                         <span class="tech-tag">Tableau</span>
                         <span class="tech-tag">SWOT</span>
                         <span class="tech-tag">PEST</span>
+                        <span class="tech-tag">B端产品</span>
                     </div>
                 </div>
             </div>
@@ -2123,11 +1738,10 @@
     <section class="experience" id="experience">
         <div class="section-header">
             <h2>实习经历</h2>
-            <div class="underline"></div>
-            <p>金融领域的多元实践</p>
+            <p>金融领域的多元实践，数据分析与行业研究</p>
         </div>
         <div class="exp-cards">
-            <div class="exp-card">
+            <div class="exp-card fade-in">
                 <div class="exp-meta">
                     <div class="company">中国银河研究所</div>
                     <div class="position">行业研究实习生</div>
@@ -2142,7 +1756,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="exp-card">
+            <div class="exp-card fade-in">
                 <div class="exp-meta">
                     <div class="company">华宝证券</div>
                     <div class="position">投资银行部实习生</div>
@@ -2157,7 +1771,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="exp-card">
+            <div class="exp-card fade-in">
                 <div class="exp-meta">
                     <div class="company">中信建投</div>
                     <div class="position">数据分析实习生</div>
@@ -2175,15 +1789,333 @@
         </div>
     </section>
 
+    <!-- Iteration Section (产品之路) -->
+    <section class="iteration" id="iteration">
+        <div class="section-header">
+            <h2>🚀 产品之路</h2>
+            <p>本网站即是我的产品作品——展示从MVP到完整产品的迭代思维</p>
+        </div>
+
+        <div class="iteration-intro">
+            <div class="highlight-box">
+                <h3>💡 为什么要展示迭代过程？</h3>
+                <p>作为产品经理，我相信<strong>过程与结果同样重要</strong>。这个网站不仅是我的个人展示，更是一个完整的产品案例——记录了我如何运用 MVP 思维、AI 协作能力和快速迭代方法，从零构建一个用户体验良好的产品。</p>
+            </div>
+        </div>
+
+        <div class="version-timeline">
+            <div class="version-node">
+                <div class="version-circle completed">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="version-label">MVP V1.0</div>
+            </div>
+            <div class="version-arrow">→</div>
+            <div class="version-node">
+                <div class="version-circle current">V2.0</div>
+                <div class="version-label">当前版本</div>
+            </div>
+            <div class="version-arrow">→</div>
+            <div class="version-node">
+                <div class="version-circle future">V3.0</div>
+                <div class="version-label">规划中</div>
+            </div>
+        </div>
+
+        <div class="iteration-grid">
+            <div class="iteration-card fade-in">
+                <div class="iteration-card-header mvp">
+                    <span class="version-badge">MVP V1.0</span>
+                    <h3>最小可行产品</h3>
+                </div>
+                <div class="iteration-card-body">
+                    <p><strong>核心目标：</strong>用最快速度完成基础功能，验证信息架构</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i>基础页面结构（单页面滚动）</li>
+                        <li><i class="fas fa-check-circle"></i>响应式布局（桌面端 + 移动端）</li>
+                        <li><i class="fas fa-check-circle"></i>核心信息展示（简介、教育、经历）</li>
+                        <li><i class="fas fa-check-circle"></i>基础导航与锚点跳转</li>
+                        <li><i class="fas fa-check-circle"></i>GitHub Pages 部署上线</li>
+                    </ul>
+                    <div class="thinking-process">
+                        <h4><i class="fas fa-brain"></i> 产品思考</h4>
+                        <p>"先让产品能用，再让产品好用。MVP阶段聚焦核心价值——清晰展示个人信息，其他功能后续迭代。"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="iteration-card fade-in">
+                <div class="iteration-card-header v2">
+                    <span class="version-badge">V2.0</span>
+                    <h3>体验优化版</h3>
+                </div>
+                <div class="iteration-card-body">
+                    <p><strong>核心目标：</strong>基于用户体验优化交互细节，增加产品质感</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i>暗黑模式（尊重用户偏好）</li>
+                        <li><i class="fas fa-check-circle"></i>阅读进度条（减少迷失感）</li>
+                        <li><i class="fas fa-check-circle"></i>返回顶部按钮（长页面必备）</li>
+                        <li><i class="fas fa-check-circle"></i>加载动画（缓解等待焦虑）</li>
+                        <li><i class="fas fa-check-circle"></i>滚动入场动画（增加层次感）</li>
+                        <li><i class="fas fa-check-circle"></i>产品迭代模块（展示方法论）</li>
+                    </ul>
+                    <div class="thinking-process">
+                        <h4><i class="fas fa-brain"></i> 产品思考</h4>
+                        <p>"好的产品体验在于细节。暗黑模式不只是功能，更是对用户习惯的尊重。"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="iteration-card fade-in">
+                <div class="iteration-card-header future">
+                    <span class="version-badge">V3.0</span>
+                    <h3>未来规划</h3>
+                </div>
+                <div class="iteration-card-body">
+                    <p><strong>核心目标：</strong>增加互动性，打造差异化记忆点</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-clock"></i>项目详情弹窗（更丰富的展示）</li>
+                        <li><i class="fas fa-clock"></i>技能雷达图（可视化能力模型）</li>
+                        <li><i class="fas fa-clock"></i>访客统计看板（数据驱动优化）</li>
+                        <li><i class="fas fa-clock"></i>博客/文章模块（持续输出内容）</li>
+                        <li><i class="fas fa-clock"></i>多语言支持（国际化展示）</li>
+                    </ul>
+                    <div class="thinking-process">
+                        <h4><i class="fas fa-lightbulb"></i> 迭代方向</h4>
+                        <p>"产品永远没有完成时，只有当前版本。保持迭代节奏，持续优化用户体验。"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-collab fade-in">
+            <h3><i class="fas fa-robot"></i> AI 协作方法论</h3>
+            <div class="prompt-examples">
+                <div class="prompt-card">
+                    <div class="label">需求定义 Prompt</div>
+                    <div class="prompt-text">"请根据我的简历制作一个现代化的个人网站，需要包含：响应式设计、渐变主题、动画效果..."</div>
+                    <div class="result"><i class="fas fa-check"></i>清晰定义产品需求，减少沟通成本</div>
+                </div>
+                <div class="prompt-card">
+                    <div class="label">迭代优化 Prompt</div>
+                    <div class="prompt-text">"在V1.0基础上增加：暗黑模式、进度条、返回顶部按钮，并体现MVP迭代思想..."</div>
+                    <div class="result"><i class="fas fa-check"></i>基于现有版本增量开发，保持一致性</div>
+                </div>
+                <div class="prompt-card">
+                    <div class="label">体验优化 Prompt</div>
+                    <div class="prompt-text">"如何在网站中直接展示产品思维和迭代过程？让面试官看到方法论..."</div>
+                    <div class="result"><i class="fas fa-check"></i>从用户视角出发，聚焦核心价值</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Skills Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2>关于我</h2>
+            <p>跨学科背景，融合财务思维与技术能力</p>
+        </div>
+        <div class="about-content">
+            <div class="about-stats fade-in">
+                <div class="stat-card">
+                    <div class="number">3+</div>
+                    <div class="label">实习经历</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Top 10%</div>
+                    <div class="label">专业排名</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">326</div>
+                    <div class="label">GRE成绩</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">7.0</div>
+                    <div class="label">雅思成绩</div>
+                </div>
+            </div>
+            <div class="about-text fade-in">
+                <h3>数据驱动决策，产品创造价值</h3>
+                <p>我是一名即将在约翰霍普金斯大学攻读商业分析与人工智能硕士的学生。本科期间主修财务管理，培养了扎实的数据分析和商业思维能力。</p>
+                <p>通过在中国银河、华宝证券、中信建投等金融机构的实习经历，我积累了丰富的数据分析、行业研究和产品设计经验。</p>
+                <ul class="info-list">
+                    <li><i class="fas fa-map-marker-alt"></i><strong>位置</strong><span>南京 / 巴尔的摩</span></li>
+                    <li><i class="fas fa-graduation-cap"></i><strong>学历</strong><span>硕士在读 (JHU)</span></li>
+                    <li><i class="fas fa-briefcase"></i><strong>方向</strong><span>产品经理 / 数据分析</span></li>
+                    <li><i class="fas fa-envelope"></i><strong>邮箱</strong><span>chengtao020624@126.com</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="section-header">
+            <h2>技能矩阵</h2>
+            <p>全栈产品能力 + 数据分析技术</p>
+        </div>
+        <div class="skills-grid">
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-pencil-ruler"></i> 产品设计</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">墨刀</span>
+                    <span class="skill-tag">PRD撰写</span>
+                    <span class="skill-tag">需求分析</span>
+                    <span class="skill-tag">竞品分析</span>
+                    <span class="skill-tag">用户研究</span>
+                </div>
+            </div>
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-code"></i> 编程开发</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Pandas</span>
+                    <span class="skill-tag">NumPy</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">MySQL</span>
+                </div>
+            </div>
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-chart-bar"></i> 数据分析</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">Tableau</span>
+                    <span class="skill-tag">Excel</span>
+                    <span class="skill-tag">SPSS</span>
+                    <span class="skill-tag">数据可视化</span>
+                    <span class="skill-tag">RFM模型</span>
+                </div>
+            </div>
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-robot"></i> AI技术</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">RAG系统</span>
+                    <span class="skill-tag">向量数据库</span>
+                    <span class="skill-tag">大模型应用</span>
+                    <span class="skill-tag">Prompt Engineering</span>
+                </div>
+            </div>
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-building"></i> 商业分析</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">SWOT分析</span>
+                    <span class="skill-tag">PEST模型</span>
+                    <span class="skill-tag">财务分析</span>
+                    <span class="skill-tag">行业研究</span>
+                </div>
+            </div>
+            <div class="skill-category fade-in">
+                <h3><i class="fas fa-language"></i> 语言能力</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">雅思 7.0</span>
+                    <span class="skill-tag">GRE 326</span>
+                    <span class="skill-tag">中文母语</span>
+                    <span class="skill-tag">英文流利</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personality Section (兴趣爱好 & 个人特质) -->
+    <section class="personality" id="personality">
+        <div class="section-header">
+            <h2>兴趣爱好 & 个人特质</h2>
+            <p>工作之外的我，同样充满热情</p>
+        </div>
+        <div class="personality-content">
+            <!-- 兴趣爱好 -->
+            <div class="personality-card fade-in">
+                <h3><i class="fas fa-heart"></i> 兴趣爱好</h3>
+                <div class="hobby-grid">
+                    <div class="hobby-item">
+                        <i class="fas fa-basketball-ball"></i>
+                        <span>篮球</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>游戏</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-music"></i>
+                        <span>音乐</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-book"></i>
+                        <span>阅读</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-plane"></i>
+                        <span>旅行</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-camera"></i>
+                        <span>摄影</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-film"></i>
+                        <span>电影</span>
+                    </div>
+                    <div class="hobby-item">
+                        <i class="fas fa-utensils"></i>
+                        <span>美食</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 个人特质 -->
+            <div class="personality-card fade-in">
+                <h3><i class="fas fa-star"></i> 个人特质</h3>
+                <div class="trait-list">
+                    <div class="trait-item">
+                        <div class="trait-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="trait-content">
+                            <h4>好奇心强</h4>
+                            <p>对新技术、新产品保持高度敏感，热衷于探索和学习</p>
+                        </div>
+                    </div>
+                    <div class="trait-item">
+                        <div class="trait-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="trait-content">
+                            <h4>团队协作</h4>
+                            <p>善于沟通协调，多次担任团队负责人，推动项目落地</p>
+                        </div>
+                    </div>
+                    <div class="trait-item">
+                        <div class="trait-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="trait-content">
+                            <h4>数据思维</h4>
+                            <p>习惯用数据说话，决策基于事实而非直觉</p>
+                        </div>
+                    </div>
+                    <div class="trait-item">
+                        <div class="trait-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="trait-content">
+                            <h4>执行力强</h4>
+                            <p>从想法到落地，注重结果导向，快速迭代验证</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="section-header">
             <h2>联系我</h2>
-            <div class="underline"></div>
             <p>期待与您交流合作</p>
         </div>
         <div class="contact-content">
-            <div class="contact-info">
+            <div class="contact-info fade-in">
                 <h3>让我们建立联系</h3>
                 <p>无论是产品合作、技术交流，还是求职机会，欢迎随时与我联系。我会在24小时内回复您的消息。</p>
                 <div class="contact-methods">
@@ -2205,13 +2137,13 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <strong>位置</strong>
-                            <span>南京 / 华盛顿 (JHU)</span>
+                            <span>南京 / 巴尔的摩 (JHU)</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="contact-card">
-                <h3>🌸 期待合作</h3>
+            <div class="contact-card fade-in">
+                <h3>🤝 期待合作</h3>
                 <div class="social-links">
                     <a href="mailto:chengtao020624@126.com" class="social-link">
                         <i class="fas fa-envelope"></i>
@@ -2219,15 +2151,15 @@
                     <a href="#" class="social-link">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://github.com/tao-624" class="social-link" target="_blank">
+                    <a href="https://github.com/Tao-624" class="social-link">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="#" class="social-link">
                         <i class="fab fa-weixin"></i>
                     </a>
                 </div>
-                <div class="contact-card-inner">
-                    <i class="fas fa-heart"></i>
+                <div class="cta-box">
+                    <i class="fas fa-paper-plane"></i>
                     <p>点击上方图标直接联系我<br>或发送邮件至 chengtao020624@126.com</p>
                 </div>
             </div>
@@ -2236,106 +2168,105 @@
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 程涛 | Product Manager & Data Analyst</p>
+        <p>© 2025 程涛 | Built with ❤️ and AI | Product Manager & Data Analyst</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">本网站是一个产品迭代案例 — 从 MVP 到 V2.0 的完整实践</p>
     </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Scripts -->
     <script>
-        // 创建樱花飘落效果
-        function createSakura() {
-            const container = document.getElementById('sakura-container');
-            const sakuraCount = 30;
-            
-            for (let i = 0; i < sakuraCount; i++) {
-                setTimeout(() => {
-                    const sakura = document.createElement('div');
-                    
-                    if (Math.random() > 0.5) {
-                        sakura.className = 'sakura';
-                        sakura.style.setProperty('--size', Math.random() * 15 + 15 + 'px');
-                    } else {
-                        sakura.className = 'petal';
-                        sakura.style.width = Math.random() * 8 + 8 + 'px';
-                        sakura.style.height = Math.random() * 8 + 8 + 'px';
-                    }
-                    
-                    sakura.style.left = Math.random() * 100 + 'vw';
-                    sakura.style.animationDuration = Math.random() * 5 + 8 + 's';
-                    sakura.style.animationDelay = Math.random() * 5 + 's';
-                    
-                    container.appendChild(sakura);
-                    
-                    sakura.addEventListener('animationend', () => {
-                        sakura.remove();
-                        createSingleSakura();
-                    });
-                }, i * 300);
-            }
-        }
-        
-        function createSingleSakura() {
-            const container = document.getElementById('sakura-container');
-            const sakura = document.createElement('div');
-            
-            if (Math.random() > 0.5) {
-                sakura.className = 'sakura';
-                sakura.style.setProperty('--size', Math.random() * 15 + 15 + 'px');
-            } else {
-                sakura.className = 'petal';
-                sakura.style.width = Math.random() * 8 + 8 + 'px';
-                sakura.style.height = Math.random() * 8 + 8 + 'px';
-            }
-            
-            sakura.style.left = Math.random() * 100 + 'vw';
-            sakura.style.animationDuration = Math.random() * 5 + 8 + 's';
-            
-            container.appendChild(sakura);
-            
-            sakura.addEventListener('animationend', () => {
-                sakura.remove();
-                createSingleSakura();
-            });
-        }
-        
-        // 鼠标跟随光效
-        const cursorGlow = document.getElementById('cursor-glow');
-        let mouseX = 0, mouseY = 0;
-        let glowX = 0, glowY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
         });
-        
-        function animateGlow() {
-            glowX += (mouseX - glowX) * 0.1;
-            glowY += (mouseY - glowY) * 0.1;
-            cursorGlow.style.left = glowX + 'px';
-            cursorGlow.style.top = glowY + 'px';
-            requestAnimationFrame(animateGlow);
-        }
-        
+
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
+            const backToTop = document.getElementById('backToTop');
+            
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
         });
 
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Back to Top
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', function() {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? '' : 'dark';
+            themeIcon.className = document.body.dataset.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme', document.body.dataset.theme);
+        });
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.dataset.theme = 'dark';
+            themeIcon.className = 'fas fa-sun';
+        }
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+
+        menuToggle.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+        });
+
+        mobileOverlay.addEventListener('click', function() {
+            mobileNav.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+        });
+
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                mobileOverlay.classList.remove('active');
             });
         });
 
-        // Fade in animation on scroll
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -2349,30 +2280,8 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.stat-card, .skill-category, .project-card, .exp-card, .timeline-content, .trait-card, .hobby-card, .story-card, .validation-card').forEach(el => {
-            el.classList.add('fade-in');
+        document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
-        });
-
-        // Add typing effect to hero subtitle
-        const subtitle = document.querySelector('.hero-text .subtitle');
-        const text = subtitle.textContent;
-        subtitle.textContent = '';
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < text.length) {
-                subtitle.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 80);
-            }
-        }
-        
-        // 初始化
-        window.addEventListener('load', () => {
-            createSakura();
-            animateGlow();
-            setTimeout(typeWriter, 500);
         });
     </script>
 </body>
